@@ -3,7 +3,7 @@ name: explain-it-with-pictures
 description: Explain how a codebase, app, or feature works using hand-drawn annotated diagrams — inline SVG, Mermaid, or ASCII — with plain-language captions for people who don't code. Use when the user asks how their project works, wants a visual or illustrated explanation, architecture or flow diagram, says they built it with AI and don't understand it, wants docs or onboarding for non-developers, or needs to explain their system to a stakeholder, a friend, or themselves.
 license: MIT
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Explain It With Pictures
@@ -37,7 +37,7 @@ Explain like a museum placard: name the thing, say what it does, add one vivid d
 
    *Done when:* one format is chosen; default to the HTML explainer whenever a file makes sense.
 
-4. **Draw and write.** Start from the templates: [annotated-diagram.svg](templates/annotated-diagram.svg) demonstrates every diagram convention on a worked example; [explainer-page.html](templates/explainer-page.html) is the document skeleton; [chat-flow.mmd](templates/chat-flow.mmd) shows the chat-format pattern. Copy the template, adapt the story, keep the conventions. When several SVGs live in one HTML file, prefix each diagram's internal ids (`arrow`, `cursor`, markers) with a letter per diagram — ids are shared across the whole page.
+4. **Draw and write.** Start from the templates: [annotated-diagram.svg](templates/annotated-diagram.svg) demonstrates every diagram convention on a worked example; [explainer-page.html](templates/explainer-page.html) is the document skeleton — it carries the whole design and motion system; [chat-flow.mmd](templates/chat-flow.mmd) shows the chat-format pattern. Copy the template, adapt the story, keep the conventions. Typography: serif display for titles, humanist sans for body, monospace for real names — paste [fonts.css](templates/fonts.css) (embedded OFL fonts) into the marked slot so the deliverable keeps its typography while staying one offline file. When several SVGs live in one HTML file, prefix each diagram's internal ids (`arrow`, `cursor`, markers) with a letter per diagram — ids are shared across the whole page.
    *Done when:* every entry in the story list has a diagram — numbered bubbles for flows, named callouts for anatomy — and a plain-words caption.
 
 5. **Self-check, then deliver.** Run the self-check at the bottom of this file; fix everything it catches. Save the HTML to `docs/how-it-works.html` in their project unless they asked for another path. Tell them how to open it in one line ("double-click `docs/how-it-works.html`"). Offer the print-to-PDF path when they want something shareable as a document.
@@ -56,6 +56,7 @@ Explain like a museum placard: name the thing, say what it does, add one vivid d
 9. **"In plain words:" caption under every diagram** — the caption walks the numbered story, then closes with one sentence carrying an everyday analogy (restaurant kitchen, filing cabinet, postal service). Pick one analogy per concept and sustain it across the whole document.
 10. **Simplify honestly.** Where you collapsed steps, write "(simplified)" on the diagram. Leave one red error arrow as a hint even when you skip the details.
 11. **Scale large codebases by zooming, never by crowding.** The Big Picture boxes whole subsystems; each subsystem then gets its own day-in-the-life diagram.
+12. **Move with restraint.** Reveal each diagram once, on scroll, in story order: zones settle, boxes fade, arrows draw, bubbles pop, labels follow, insets last — everything inside 1.2 seconds. Motion lives under a `prefers-reduced-motion: no-preference` media query, hidden states only apply under a JS-set class (a frozen page still shows everything), and print forces final states. The skeleton in [explainer-page.html](templates/explainer-page.html) carries the whole system — copy it, set `--seq` per story beat.
 
 ## Plain-language rules
 
@@ -82,4 +83,6 @@ Explain like a museum placard: name the thing, say what it does, add one vivid d
 - [ ] Every user touchpoint is marked; the first numbered step is something the user does.
 - [ ] The cast list matches the real file tree; the story list covers every user-visible action.
 - [ ] The file opens offline (every font and image is inline or system) and prints cleanly (light background, text ≥14px).
+- [ ] Motion: story-ordered reveals under 1.2s, disabled for reduced-motion and print, content fully visible without JS.
+- [ ] Every text/background pair passes 4.5:1 contrast (scripts/check-contrast.py encodes the palette contract).
 - [ ] A person who has never coded could read it top to bottom without asking a single question.

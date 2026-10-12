@@ -4,85 +4,243 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PROJECT NAME — How It Works</title>
+<script>document.documentElement.classList.add('js')</script>
 <style>
-  * { box-sizing: border-box; }
-  body { font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; margin: 0; background: #ffffff; color: #1a1a1a; }
-  main { max-width: 860px; margin: 0 auto; padding: 48px 24px 96px; }
-  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; }
-  h2 { font-size: 1.4rem; margin-top: 3em; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.3em; }
-  p { max-width: 70ch; }
-  .plain-words { background: #eff6ff; border-left: 4px solid #2563eb; border-radius: 8px; padding: 14px 18px; font-size: 1.05rem; }
-  figure { margin: 2.5em 0; }
-  figure svg { width: 100%; height: auto; }
-  figcaption { color: #475569; font-size: 0.95rem; margin-top: 12px; }
-  figcaption strong { color: #111827; }
-  pre.tree { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 20px; overflow-x: auto; font-size: 0.9rem; line-height: 1.8; }
-  dl.glossary dt { font-weight: 700; margin-top: 1.2em; }
-  dl.glossary dd { margin: 0.2em 0 0 0; }
-  code { background: #f1f5f9; padding: 1px 6px; border-radius: 4px; font-size: 0.9em; }
-  .elevator { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 18px 22px; }
-  @media print {
-    body { font-size: 12pt; }
-    main { max-width: none; padding: 0; }
-    h2 { page-break-after: avoid; }
-    figure { page-break-inside: avoid; }
-  }
+/* ==========================================================================
+   Explain It With Pictures — page skeleton
+   Slots marked with ⤵ must be filled; everything else is the design system.
+   ========================================================================== */
+
+/* Paste templates/fonts.css here (embedded OFL fonts — keeps the file offline) ⤵ */
+
+:root {
+  --ink: #0F172A;
+  --body-ink: #1E293B;
+  --muted: #475569;
+  --faint: #94A3B8;
+  --page: #F6F7F9;
+  --paper: #FFFFFF;
+  --hairline: #E2E8F0;
+  --front: #2563EB;   --front-deep: #1D4ED8;   --front-tint: #EEF4FF;
+  --server: #059669;  --server-deep: #047857;  --server-tint: #ECFDF5;
+  --data: #D97706;    --data-deep: #B45309;    --data-tint: #FFFBEB;
+  --error: #E11D48;   --error-text: #BE123C;
+  --reply: #2563EB;   --reply-text: #1D4ED8;
+  --accent: #7C3AED;  --accent-tint: #F5F3FF;
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-body: 'Inter', -apple-system, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --shadow-1: 0 1px 2px rgba(15,23,42,.04), 0 4px 16px rgba(15,23,42,.06);
+  --shadow-2: 0 2px 4px rgba(15,23,42,.05), 0 12px 32px rgba(15,23,42,.10);
+  --ease-out: cubic-bezier(.22,1,.36,1);
+  --spring: cubic-bezier(.34,1.56,.64,1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font: 16.5px/1.7 var(--font-body); margin: 0; background: var(--page); color: var(--body-ink); -webkit-font-smoothing: antialiased; }
+::selection { background: #DDD6FE; }
+
+.topbar { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(20px) saturate(1.8); -webkit-backdrop-filter: blur(20px) saturate(1.8); background: rgba(255,255,255,.72); border-bottom: 1px solid var(--hairline); }
+.topbar-inner { max-width: 880px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.wordmark { font: 600 15px/1.2 var(--font-display); color: var(--ink); letter-spacing: -.01em; }
+.print-btn { font: 600 13px var(--font-body); color: var(--accent); background: var(--accent-tint); border: 1px solid #E9E5F8; border-radius: 999px; padding: 7px 14px; cursor: pointer; transition: transform .15s var(--ease-out), box-shadow .15s; }
+.print-btn:hover { box-shadow: var(--shadow-1); }
+.print-btn:active { transform: scale(.96); }
+#progress { position: absolute; left: 0; bottom: -1px; width: 100%; height: 2px; background: linear-gradient(90deg, var(--accent), #2563EB); transform-origin: 0 50%; transform: scaleX(0); }
+
+main { max-width: 880px; margin: 40px auto 96px; padding: 0 24px; }
+.sheet { background: var(--paper); border: 1px solid var(--hairline); border-radius: 24px; padding: clamp(32px, 6vw, 72px); box-shadow: var(--shadow-2); }
+
+header.hero { margin-bottom: 8px; }
+h1 { font: 600 clamp(2.1rem, 5vw, 2.85rem)/1.08 var(--font-display); letter-spacing: -.02em; color: var(--ink); margin: 0 0 18px; font-optical-sizing: auto; }
+.hero-kicker { font: 600 12px var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+
+.plain-words { background: linear-gradient(135deg, #F5F3FF, #EFF6FF); border: 1px solid #E4E8FA; border-radius: 18px; padding: 22px 26px; font-size: 1.02rem; }
+.plain-words .tag { display: inline-block; font: 700 11px var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+
+section { margin-top: 72px; }
+.eyebrow { font: 700 11px var(--font-body); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 10px; }
+h2 { font: 600 1.55rem/1.2 var(--font-display); letter-spacing: -.015em; color: var(--ink); margin: 0 0 14px; font-optical-sizing: auto; }
+p { max-width: 68ch; margin: 0 0 14px; }
+p:last-child { margin-bottom: 0; }
+em { font-style: italic; }
+strong { font-weight: 650; color: var(--ink); }
+
+figure { margin: 30px 0 0; background: var(--paper); border: 1px solid var(--hairline); border-radius: 20px; padding: clamp(16px, 3vw, 28px); box-shadow: var(--shadow-1); }
+figure svg { width: 100%; height: auto; display: block; }
+figcaption { color: var(--muted); font-size: .95rem; line-height: 1.75; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--hairline); }
+figcaption strong { color: var(--ink); }
+.step-n { display: inline-flex; align-items: center; justify-content: center; width: 1.5em; height: 1.5em; border-radius: 999px; background: var(--ink); color: #fff; font: 700 .72em/1 var(--font-body); vertical-align: -.2em; margin-right: .15em; }
+
+pre.tree { background: #F8FAFC; border: 1px solid var(--hairline); border-radius: 16px; padding: 22px 26px; overflow-x: auto; font: 400 13.5px/2 var(--font-mono); color: var(--body-ink); }
+pre.tree .file { font-weight: 700; color: var(--ink); }
+pre.tree .role { color: var(--muted); }
+
+dl.glossary { margin: 20px 0 0; }
+dl.glossary > div { padding: 14px 0; border-top: 1px solid var(--hairline); }
+dl.glossary dt { font: 650 .95rem var(--font-body); color: var(--ink); }
+dl.glossary dd { margin: 4px 0 0; color: var(--muted); font-size: .95rem; }
+
+.elevator { margin-top: 26px; background: linear-gradient(135deg, #ECFDF5, #EFF6FF); border: 1px solid #D3EAFD; border-radius: 20px; padding: 28px 32px; font: 500 1.15rem/1.75 var(--font-display); color: var(--ink); font-style: italic; }
+
+footer.doc { margin-top: 72px; padding-top: 24px; border-top: 1px solid var(--hairline); text-align: center; font-size: .85rem; color: var(--muted); }
+footer.doc a { color: var(--accent); text-decoration: none; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+/* ---- motion --------------------------------------------------------------
+   Everything animates once, on entry, under 1.2s. Reduced-motion and
+   print fall back to the fully-rendered static page. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .u-fade { opacity: 0; }
+  html.js .in-view.u-fade { animation: fadeUp .8s var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 90ms); }
+
+  html.js figure[data-animate] .zone,
+  html.js figure[data-animate] .zlabel,
+  html.js figure[data-animate] .inset-item { opacity: 0; }
+  html.js figure.in-view .zone,
+  html.js figure.in-view .zlabel { animation: settle 1s var(--ease-out) forwards; }
+
+  html.js figure[data-animate] .box { opacity: 0; }
+  html.js figure.in-view .box { animation: popIn .75s var(--spring) forwards; animation-delay: calc(var(--seq, 0) * 110ms + 150ms); }
+
+  html.js figure[data-animate] .lbl { opacity: 0; }
+  html.js figure.in-view .lbl { animation: fadeUp-sm .6s var(--ease-out) forwards; animation-delay: calc(var(--seq, 0) * 110ms + 380ms); }
+
+  html.js figure[data-animate] .edge { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  html.js figure.in-view .edge { transition: stroke-dashoffset .85s var(--ease-out); transition-delay: calc(var(--seq, 0) * 110ms + 300ms); stroke-dashoffset: 0; }
+
+  html.js figure[data-animate] .head { opacity: 0; transform: scale(.3); transform-box: fill-box; transform-origin: center; }
+  html.js figure.in-view .head { animation: popIn .4s var(--spring) forwards; animation-delay: calc(var(--seq, 0) * 110ms + 1050ms); }
+
+  html.js figure[data-animate] .bubble { opacity: 0; transform: scale(.3); transform-box: fill-box; transform-origin: center; }
+  html.js figure.in-view .bubble { animation: popIn .55s var(--spring) forwards; animation-delay: calc(var(--seq, 0) * 110ms + 250ms); }
+
+  html.js figure.in-view .inset-item { animation: popIn .8s var(--spring) forwards; animation-delay: calc(var(--seq, 0) * 100ms + 1.25s); }
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(26px); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes fadeUp-sm { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes settle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes popIn { from { opacity: 0; } 60% { opacity: 1; } to { opacity: 1; transform: none; } }
+
+@media print {
+  html.js .u-fade, html.js figure .box, html.js figure .bubble, html.js figure .head,
+  html.js figure .lbl, html.js figure .zone, html.js figure .zlabel, html.js figure .edge,
+  html.js figure .inset-item { opacity: 1 !important; transform: none !important; filter: none !important; stroke-dashoffset: 0 !important; stroke-dasharray: none !important; }
+  body { background: #fff; font-size: 12pt; }
+  .topbar, .print-btn { display: none; }
+  main { margin: 0; max-width: none; padding: 0; }
+  .sheet { border: 0; box-shadow: none; padding: 0; border-radius: 0; }
+  section { margin-top: 48px; }
+  h2 { page-break-after: avoid; }
+  figure { page-break-inside: avoid; box-shadow: none; }
+}
 </style>
 </head>
 <body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="wordmark">PROJECT NAME — how it works</div>
+    <button class="print-btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+    <div id="progress" role="presentation"></div>
+  </div>
+</div>
 <main>
-  <header>
-    <h1>PROJECT NAME — how it works</h1>
-    <p class="plain-words"><strong>In plain words:</strong> One paragraph anyone can follow. Zero jargon. If a technical word must appear, define it right here in parentheses.</p>
-  </header>
+  <article class="sheet">
+    <header class="hero u-fade" data-animate>
+      <div class="hero-kicker">An illustrated guide to your app</div>
+      <h1>PROJECT NAME — how it works</h1>
+      <p class="plain-words"><span class="tag">In plain words</span><br>
+      One paragraph anyone can follow. Zero jargon. If a technical word must appear, define it right here in parentheses.</p>
+    </header>
 
-  <section>
-    <h2>The big picture</h2>
-    <p>One or two sentences of setup, in the reader's language, before the picture.</p>
-    <figure>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="system-ui, sans-serif">
-        <title>The big picture</title>
-      </svg>
-      <figcaption><strong>In plain words:</strong> One sentence with an everyday analogy. Keep this analogy for the rest of the document.</figcaption>
-    </figure>
-  </section>
+    <section data-animate>
+      <span class="eyebrow">01 · The map</span>
+      <h2>The big picture</h2>
+      <p class="u-fade" style="--i:1">One or two sentences of setup, in the reader's language, before the picture.</p>
+      <figure data-animate>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="system-ui, sans-serif" role="img" aria-label="The big picture">
+          <title>The big picture</title>
+          <!-- Diagrams follow templates/annotated-diagram.svg conventions:
+               zone / box / box-title / box-sub / box-note classes, .edge with
+               pathLength="1", .head triangles, .bubble circles, .lbl labels,
+               style="--seq: n" sets the story order for motion. -->
+        </svg>
+        <figcaption><strong>In plain words:</strong> Walk the numbered bubbles in prose. One sentence at the end carries the everyday analogy, used consistently for the rest of the document.</figcaption>
+      </figure>
+    </section>
 
-  <section>
-    <h2>What happens when you…</h2>
-    <p>One day-in-the-life diagram per user-visible action. Walk the numbered bubbles in the caption.</p>
-    <figure>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="system-ui, sans-serif">
-        <title>What happens when you do the thing</title>
-      </svg>
-      <figcaption><strong>In plain words:</strong> ① you do this, ② then that happens, ③ and this comes back.</figcaption>
-    </figure>
-  </section>
+    <section data-animate>
+      <span class="eyebrow">02 · The stories</span>
+      <h2>What happens when you…</h2>
+      <p class="u-fade" style="--i:1">One day-in-the-life diagram per user-visible action.</p>
+      <figure data-animate>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="system-ui, sans-serif" role="img" aria-label="What happens when you do the thing">
+          <title>What happens when you do the thing</title>
+        </svg>
+        <figcaption><strong>In plain words:</strong> <span class="step-n">1</span>you do this, <span class="step-n">2</span>then that happens, <span class="step-n">3</span>and this comes back.</figcaption>
+      </figure>
+    </section>
 
-  <section>
-    <h2>The cast of characters</h2>
-    <p>Every file or folder in the project, with one human sentence each — what it is, and what happens if it goes missing.</p>
-    <pre class="tree">
-recipe-saver/
-├── server.js        → the kitchen: the program that does the actual work
-├── public/          → everything your browser shows you
-│   ├── index.html   → the page itself: the form you type into
-│   └── app.js       → the page's assistant: sends your clicks to the kitchen
-└── recipes.json     → the filing cabinet: every recipe you ever saved
-    </pre>
-  </section>
+    <section data-animate>
+      <span class="eyebrow">03 · The data</span>
+      <h2>Where your data lives</h2>
+      <p class="u-fade" style="--i:1">The anatomy picture: one stored thing opened up, every field labeled in plain words.</p>
+      <figure data-animate>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" font-family="system-ui, sans-serif" role="img" aria-label="Anatomy of one saved record">
+          <title>Anatomy of one saved record</title>
+        </svg>
+        <figcaption><strong>In plain words:</strong> Explain each labeled field the reader just saw, then the file as a whole.</figcaption>
+      </figure>
+    </section>
 
-  <section>
-    <h2>Words you'll hear</h2>
-    <dl class="glossary">
-      <dt>server</dt>
-      <dd>The program that listens for requests and answers them — like a kitchen taking orders.</dd>
-    </dl>
-  </section>
+    <section data-animate>
+      <span class="eyebrow">04 · The files</span>
+      <h2>The cast of characters</h2>
+      <p class="u-fade" style="--i:1">Every file or folder, one human sentence each — what it is, and what happens if it goes missing.</p>
+      <pre class="tree u-fade" style="--i:2">
+<span class="file">recipe-saver/</span>
+├── <span class="file">server.js</span>      <span class="role">→ the kitchen: takes orders, checks them, does the work</span>
+└── <span class="file">recipes.json</span>   <span class="role">→ the filing cabinet: everything you ever saved</span>
+      </pre>
+    </section>
 
-  <section>
-    <h2>How to explain it to a friend</h2>
-    <p class="elevator">Three sentences the reader can memorize and repeat.</p>
-  </section>
+    <section data-animate>
+      <span class="eyebrow">05 · The words</span>
+      <h2>Words you'll hear</h2>
+      <p class="u-fade" style="--i:1">Every technical word this document used, in the order they appeared.</p>
+      <dl class="glossary">
+        <div class="u-fade" style="--i:2"><dt>server</dt><dd>The program that listens for requests and answers them.</dd></div>
+      </dl>
+    </section>
+
+    <section data-animate>
+      <span class="eyebrow">06 · The short version</span>
+      <h2>How to explain it to a friend</h2>
+      <p class="elevator u-fade" style="--i:1">Three sentences the reader can memorize and repeat.</p>
+    </section>
+
+    <footer class="doc u-fade" data-animate>
+      Explained with <a href="https://github.com/imranshiundu/explain-it-with-pictures">Explain It With Pictures</a> — a free, open-source skill for AI coding agents.
+    </footer>
+  </article>
 </main>
+<script>
+(() => {
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+  }, { threshold: 0.12 });
+  document.querySelectorAll('[data-animate]').forEach(el => io.observe(el));
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')';
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
 </body>
 </html>

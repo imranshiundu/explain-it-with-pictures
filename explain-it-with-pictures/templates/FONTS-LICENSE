@@ -1,0 +1,9 @@
+Embedded fonts in templates/fonts.css are subsets of:
+
+- Fraunces (SIL Open Font License 1.1) — https://fonts.google.com/specimen/Fraunces
+- Inter (SIL Open Font License 1.1) — https://fonts.google.com/specimen/Inter
+- JetBrains Mono (SIL Open Font License 1.1) — https://www.jetbrains.com/lp/mono/
+
+The SIL Open Font License permits embedding and redistribution, including in
+documents and as base64 data URIs. The full license text is available at
+https://openfontlicense.org/ and in each font's upstream repository.
