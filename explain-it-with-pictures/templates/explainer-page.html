@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROJECT NAME — How It Works</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; margin: 0; background: #ffffff; color: #1a1a1a; }
+  main { max-width: 860px; margin: 0 auto; padding: 48px 24px 96px; }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; }
+  h2 { font-size: 1.4rem; margin-top: 3em; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.3em; }
+  p { max-width: 70ch; }
+  .plain-words { background: #eff6ff; border-left: 4px solid #2563eb; border-radius: 8px; padding: 14px 18px; font-size: 1.05rem; }
+  figure { margin: 2.5em 0; }
+  figure svg { width: 100%; height: auto; }
+  figcaption { color: #475569; font-size: 0.95rem; margin-top: 12px; }
+  figcaption strong { color: #111827; }
+  pre.tree { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 20px; overflow-x: auto; font-size: 0.9rem; line-height: 1.8; }
+  dl.glossary dt { font-weight: 700; margin-top: 1.2em; }
+  dl.glossary dd { margin: 0.2em 0 0 0; }
+  code { background: #f1f5f9; padding: 1px 6px; border-radius: 4px; font-size: 0.9em; }
+  .elevator { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 18px 22px; }
+  @media print {
+    body { font-size: 12pt; }
+    main { max-width: none; padding: 0; }
+    h2 { page-break-after: avoid; }
+    figure { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>PROJECT NAME — how it works</h1>
+    <p class="plain-words"><strong>In plain words:</strong> One paragraph anyone can follow. Zero jargon. If a technical word must appear, define it right here in parentheses.</p>
+  </header>
+
+  <section>
+    <h2>The big picture</h2>
+    <p>One or two sentences of setup, in the reader's language, before the picture.</p>
+    <figure>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="system-ui, sans-serif">
+        <title>The big picture</title>
+      </svg>
+      <figcaption><strong>In plain words:</strong> One sentence with an everyday analogy. Keep this analogy for the rest of the document.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>What happens when you…</h2>
+    <p>One day-in-the-life diagram per user-visible action. Walk the numbered bubbles in the caption.</p>
+    <figure>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="system-ui, sans-serif">
+        <title>What happens when you do the thing</title>
+      </svg>
+      <figcaption><strong>In plain words:</strong> ① you do this, ② then that happens, ③ and this comes back.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>The cast of characters</h2>
+    <p>Every file or folder in the project, with one human sentence each — what it is, and what happens if it goes missing.</p>
+    <pre class="tree">
+recipe-saver/
+├── server.js        → the kitchen: the program that does the actual work
+├── public/          → everything your browser shows you
+│   ├── index.html   → the page itself: the form you type into
+│   └── app.js       → the page's assistant: sends your clicks to the kitchen
+└── recipes.json     → the filing cabinet: every recipe you ever saved
+    </pre>
+  </section>
+
+  <section>
+    <h2>Words you'll hear</h2>
+    <dl class="glossary">
+      <dt>server</dt>
+      <dd>The program that listens for requests and answers them — like a kitchen taking orders.</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>How to explain it to a friend</h2>
+    <p class="elevator">Three sentences the reader can memorize and repeat.</p>
+  </section>
+</main>
+</body>
+</html>

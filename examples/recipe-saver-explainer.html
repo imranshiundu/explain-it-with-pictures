@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recipe Saver — How It Works</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; margin: 0; background: #ffffff; color: #1a1a1a; }
+  main { max-width: 860px; margin: 0 auto; padding: 48px 24px 96px; }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; }
+  h2 { font-size: 1.4rem; margin-top: 3em; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.3em; }
+  p { max-width: 70ch; }
+  .plain-words { background: #eff6ff; border-left: 4px solid #2563eb; border-radius: 8px; padding: 14px 18px; font-size: 1.05rem; }
+  figure { margin: 2.5em 0; }
+  figure svg { width: 100%; height: auto; }
+  figcaption { color: #475569; font-size: 0.95rem; margin-top: 12px; }
+  figcaption strong { color: #111827; }
+  pre.tree { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 20px; overflow-x: auto; font-size: 0.9rem; line-height: 1.8; }
+  dl.glossary dt { font-weight: 700; margin-top: 1.2em; }
+  dl.glossary dd { margin: 0.2em 0 0 0; }
+  code { background: #f1f5f9; padding: 1px 6px; border-radius: 4px; font-size: 0.9em; }
+  .elevator { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 18px 22px; }
+  @media print {
+    body { font-size: 12pt; }
+    main { max-width: none; padding: 0; }
+    h2 { page-break-after: avoid; }
+    figure { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Recipe Saver — how it works</h1>
+    <p class="plain-words"><strong>In plain words:</strong> Recipe Saver is a small recipe book that lives entirely on your computer. The page you see in your <strong>browser</strong> (the program you are reading this in — Chrome, Safari, Firefox) is the table: a form, a list, a search box. Behind it, a small program called the <strong>server</strong> (the program that listens for requests and answers them) is the kitchen: it checks every recipe you save and keeps the book. The book itself is one file, <code>recipes.json</code>. Every click you make travels from the table to the kitchen and an answer travels back — and that loop is the whole app.</p>
+  </header>
+
+  <section>
+    <h2>The big picture</h2>
+    <p>Three parts, one loop. Once you can read this picture, every other one below is a zoom-in.</p>
+    <figure>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+        <title>The big picture — three parts, one loop</title>
+        <defs>
+          <marker id="a-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#3f3f46"/>
+          </marker>
+          <marker id="a-arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#2563eb"/>
+          </marker>
+          <path id="a-cursor" d="M 0 0 L 0 14 L 4 11 L 6.5 16.5 L 8.5 15.5 L 6 10 L 11 10 Z" fill="#111827"/>
+        </defs>
+
+        <text x="24" y="40" font-size="22" font-weight="700" fill="#111827">The big picture — three parts, one loop</text>
+        <text x="24" y="60" font-size="12" fill="#64748b">your whole app in one picture — every picture below uses these same colors</text>
+
+        <g>
+          <rect x="20" y="70" width="260" height="360" rx="14" fill="#eff6ff" stroke="#bfdbfe"/>
+          <text x="36" y="90" font-size="12" font-weight="700" letter-spacing="1.5" fill="#2563eb">WHAT YOU SEE</text>
+          <rect x="340" y="70" width="300" height="360" rx="14" fill="#f0fdf4" stroke="#bbf7d0"/>
+          <text x="356" y="90" font-size="12" font-weight="700" letter-spacing="1.5" fill="#16a34a">THE SERVER CODE</text>
+          <rect x="700" y="70" width="240" height="360" rx="14" fill="#fffbeb" stroke="#fde68a"/>
+          <text x="716" y="90" font-size="12" font-weight="700" letter-spacing="1.5" fill="#d97706">WHERE YOUR DATA LIVES</text>
+        </g>
+
+        <g>
+          <rect x="48" y="130" width="204" height="104" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+          <circle cx="60" cy="130" r="12" fill="#111827"/>
+          <text x="60" y="134" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+          <text x="150" y="168" font-size="16" font-weight="700" fill="#111827" text-anchor="middle">The page you see</text>
+          <text x="150" y="188" font-size="12" fill="#6b7280" text-anchor="middle">public/</text>
+          <text x="150" y="210" font-size="13" fill="#111827" text-anchor="middle">what you look at,</text>
+          <text x="150" y="228" font-size="13" fill="#111827" text-anchor="middle">and type into</text>
+          <use href="#a-cursor" x="212" y="218"/>
+        </g>
+
+        <g>
+          <rect x="372" y="130" width="236" height="104" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+          <text x="490" y="168" font-size="16" font-weight="700" fill="#111827" text-anchor="middle">The kitchen — your server</text>
+          <text x="490" y="188" font-size="12" fill="#6b7280" text-anchor="middle">server.js</text>
+          <text x="490" y="210" font-size="13" fill="#111827" text-anchor="middle">you start it with the</text>
+          <text x="490" y="228" font-size="13" fill="#111827" text-anchor="middle">command: node server.js</text>
+        </g>
+
+        <g>
+          <rect x="724" y="130" width="192" height="104" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+          <text x="820" y="168" font-size="16" font-weight="700" fill="#111827" text-anchor="middle">Your recipe book</text>
+          <text x="820" y="188" font-size="12" fill="#6b7280" text-anchor="middle">recipes.json</text>
+          <text x="820" y="210" font-size="13" fill="#111827" text-anchor="middle">every recipe</text>
+          <text x="820" y="228" font-size="13" fill="#111827" text-anchor="middle">you ever save</text>
+        </g>
+
+        <g>
+          <line x1="252" y1="182" x2="366" y2="182" stroke="#3f3f46" stroke-width="2" marker-end="url(#a-arrow)"/>
+          <circle cx="310" cy="182" r="12" fill="#111827"/>
+          <text x="310" y="186" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+          <text x="310" y="210" font-size="12" fill="#374151" text-anchor="middle">your clicks</text>
+          <text x="310" y="226" font-size="12" fill="#374151" text-anchor="middle">and typing</text>
+        </g>
+
+        <g>
+          <line x1="608" y1="172" x2="714" y2="172" stroke="#3f3f46" stroke-width="2" marker-end="url(#a-arrow)"/>
+          <text x="663" y="150" font-size="12" fill="#374151" text-anchor="middle">saves new</text>
+          <text x="663" y="166" font-size="12" fill="#374151" text-anchor="middle">recipes in</text>
+          <line x1="724" y1="212" x2="618" y2="212" stroke="#3f3f46" stroke-width="2" marker-end="url(#a-arrow)"/>
+          <text x="663" y="238" font-size="12" fill="#374151" text-anchor="middle">reads all</text>
+          <text x="663" y="254" font-size="12" fill="#374151" text-anchor="middle">recipes out</text>
+          <circle cx="663" cy="192" r="12" fill="#111827"/>
+          <text x="663" y="196" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+        </g>
+
+        <g>
+          <path d="M 490 234 C 490 320, 150 320, 150 234" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#a-arrow-blue)"/>
+          <circle cx="320" cy="298" r="12" fill="#111827"/>
+          <text x="320" y="302" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+          <text x="320" y="326" font-size="12.5" fill="#2563eb" text-anchor="middle">what you asked for</text>
+        </g>
+
+        <g>
+          <rect x="14" y="444" width="932" height="96" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+          <rect x="28" y="456" width="14" height="14" rx="3" fill="#dbeafe" stroke="#2563eb"/>
+          <text x="48" y="468" font-size="12" fill="#374151">what you see (the front end)</text>
+          <rect x="260" y="456" width="14" height="14" rx="3" fill="#dcfce7" stroke="#16a34a"/>
+          <text x="280" y="468" font-size="12" fill="#374151">server code</text>
+          <rect x="380" y="456" width="14" height="14" rx="3" fill="#fef3c7" stroke="#d97706"/>
+          <text x="400" y="468" font-size="12" fill="#374151">where data lives</text>
+          <line x1="540" y1="463" x2="572" y2="463" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="580" y="468" font-size="12" fill="#374151">a problem (error)</text>
+          <line x1="28" y1="501" x2="60" y2="501" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="68" y="506" font-size="12" fill="#374151">a reply coming back</text>
+          <circle cx="244" cy="501" r="12" fill="#111827"/>
+          <text x="244" y="505" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+          <text x="264" y="506" font-size="12" fill="#374151">numbers = story order</text>
+          <use href="#a-cursor" x="440" y="492"/>
+          <text x="460" y="506" font-size="12" fill="#374151">where you (the human) act</text>
+        </g>
+      </svg>
+      <figcaption><strong>In plain words:</strong> ① The page is your table — you look, click, and type. ② Everything you do is carried to the kitchen: your server, <code>server.js</code>, which you start with the command <code>node server.js</code>. ③ The kitchen writes new recipes into your book (<code>recipes.json</code>) and reads all recipes back out of it. ④ The answer comes back to your page. It is a restaurant at your own desk: menu in front of you, kitchen behind the wall, recipe book in the kitchen. Every click is one loop of ordering and serving — hold this picture and the rest of this document is just zoom.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>What happens when you save a recipe</h2>
+    <p>You fill in the title, maybe the ingredients and steps, and click <em>Save recipe</em>. Behind the scenes, five things happen in about a blink:</p>
+    <figure>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+        <title>What happens when you save a recipe</title>
+        <defs>
+          <marker id="b-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#3f3f46"/>
+          </marker>
+          <marker id="b-arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/>
+          </marker>
+          <marker id="b-arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#2563eb"/>
+          </marker>
+          <path id="b-cursor" d="M 0 0 L 0 14 L 4 11 L 6.5 16.5 L 8.5 15.5 L 6 10 L 11 10 Z" fill="#111827"/>
+        </defs>
+
+        <text x="24" y="40" font-size="22" font-weight="700" fill="#111827">What happens when you save a recipe</text>
+        <text x="24" y="60" font-size="12" fill="#64748b">(simplified — the real code also handles searching and a few safety checks)</text>
+
+        <g>
+          <rect x="20" y="70" width="260" height="360" rx="14" fill="#eff6ff" stroke="#bfdbfe"/>
+          <text x="36" y="90" font-size="12" font-weight="700" letter-spacing="1.5" fill="#2563eb">WHAT YOU SEE</text>
+          <rect x="340" y="70" width="300" height="360" rx="14" fill="#f0fdf4" stroke="#bbf7d0"/>
+          <text x="356" y="90" font-size="12" font-weight="700" letter-spacing="1.5" fill="#16a34a">THE SERVER CODE</text>
+          <rect x="700" y="70" width="240" height="360" rx="14" fill="#fffbeb" stroke="#fde68a"/>
+          <text x="716" y="90" font-size="12" font-weight="700" letter-spacing="1.5" fill="#d97706">WHERE YOUR DATA LIVES</text>
+        </g>
+
+        <g>
+          <rect x="48" y="130" width="204" height="104" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+          <circle cx="60" cy="130" r="12" fill="#111827"/>
+          <text x="60" y="134" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+          <text x="150" y="168" font-size="16" font-weight="700" fill="#111827" text-anchor="middle">The page you see</text>
+          <text x="150" y="188" font-size="12" fill="#6b7280" text-anchor="middle">public/index.html</text>
+          <text x="150" y="210" font-size="13" fill="#111827" text-anchor="middle">you type your recipe,</text>
+          <text x="150" y="228" font-size="13" fill="#111827" text-anchor="middle">then click Save</text>
+          <use href="#b-cursor" x="212" y="218"/>
+        </g>
+
+        <g>
+          <rect x="372" y="130" width="236" height="104" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+          <circle cx="384" cy="130" r="12" fill="#111827"/>
+          <text x="384" y="134" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+          <text x="490" y="168" font-size="16" font-weight="700" fill="#111827" text-anchor="middle">The kitchen — your server</text>
+          <text x="490" y="188" font-size="12" fill="#6b7280" text-anchor="middle">server.js</text>
+          <text x="490" y="212" font-size="13" fill="#111827" text-anchor="middle">checks: has it got a title?</text>
+        </g>
+
+        <g>
+          <rect x="724" y="130" width="192" height="104" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+          <text x="820" y="168" font-size="16" font-weight="700" fill="#111827" text-anchor="middle">Your recipe book</text>
+          <text x="820" y="188" font-size="12" fill="#6b7280" text-anchor="middle">recipes.json</text>
+          <text x="820" y="212" font-size="13" fill="#111827" text-anchor="middle">one list, saved on disk</text>
+        </g>
+
+        <g>
+          <line x1="252" y1="182" x2="366" y2="182" stroke="#3f3f46" stroke-width="2" marker-end="url(#b-arrow)"/>
+          <circle cx="310" cy="182" r="12" fill="#111827"/>
+          <text x="310" y="186" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+          <text x="310" y="210" font-size="12" fill="#374151" text-anchor="middle">your recipe,</text>
+          <text x="310" y="226" font-size="12" fill="#374151" text-anchor="middle">as a message</text>
+        </g>
+
+        <g>
+          <line x1="608" y1="182" x2="718" y2="182" stroke="#3f3f46" stroke-width="2" marker-end="url(#b-arrow)"/>
+          <circle cx="663" cy="182" r="12" fill="#111827"/>
+          <text x="663" y="186" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+          <text x="663" y="210" font-size="12" fill="#374151" text-anchor="middle">the finished</text>
+          <text x="663" y="226" font-size="12" fill="#374151" text-anchor="middle">recipe</text>
+        </g>
+
+        <g>
+          <path d="M 560 130 C 560 108, 240 108, 240 130" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#b-arrow-red)"/>
+          <text x="400" y="106" font-size="12.5" font-style="italic" fill="#dc2626" text-anchor="middle">if something is missing: a friendly error</text>
+        </g>
+
+        <g>
+          <path d="M 490 234 C 490 320, 150 320, 150 234" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#b-arrow-blue)"/>
+          <circle cx="320" cy="298" r="12" fill="#111827"/>
+          <text x="320" y="302" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">5</text>
+          <text x="320" y="326" font-size="12.5" fill="#2563eb" text-anchor="middle">your updated list — the page quietly asks for it</text>
+        </g>
+
+        <g>
+          <rect x="14" y="444" width="932" height="96" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+          <rect x="28" y="456" width="14" height="14" rx="3" fill="#dbeafe" stroke="#2563eb"/>
+          <text x="48" y="468" font-size="12" fill="#374151">what you see (the front end)</text>
+          <rect x="260" y="456" width="14" height="14" rx="3" fill="#dcfce7" stroke="#16a34a"/>
+          <text x="280" y="468" font-size="12" fill="#374151">server code</text>
+          <rect x="380" y="456" width="14" height="14" rx="3" fill="#fef3c7" stroke="#d97706"/>
+          <text x="400" y="468" font-size="12" fill="#374151">where data lives</text>
+          <line x1="540" y1="463" x2="572" y2="463" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="580" y="468" font-size="12" fill="#374151">a problem (error)</text>
+          <line x1="28" y1="501" x2="60" y2="501" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="68" y="506" font-size="12" fill="#374151">a reply coming back</text>
+          <circle cx="244" cy="501" r="12" fill="#111827"/>
+          <text x="244" y="505" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+          <text x="264" y="506" font-size="12" fill="#374151">numbers = story order</text>
+          <use href="#b-cursor" x="440" y="492"/>
+          <text x="460" y="506" font-size="12" fill="#374151">where you (the human) act</text>
+        </g>
+      </svg>
+      <figcaption><strong>In plain words:</strong> ① You type your recipe and click <em>Save</em>. ② The page wraps what you typed into a message and sends it to the kitchen. ③ The kitchen does one quality check — does it have a title? If something is missing, the red arrow sends a friendly error straight back to your form and nothing gets saved. ④ If the recipe passes, the kitchen writes it on a fresh page of your book, right next to everything you saved before. ⑤ Then, quietly and without you doing anything, your page asks for the whole book again and redraws the list — that is why your new recipe appears instantly. In plain words: you hand the kitchen a filled-in order card; the kitchen checks it, glues it in the book, then reads the whole book back to your table.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>What happens when you search</h2>
+    <p>Every letter you type in the search box triggers the same little trip. Here it is with the word <em>chap</em>:</p>
+    <figure>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+        <title>What happens when you search for chap</title>
+        <defs>
+          <marker id="c-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#3f3f46"/>
+          </marker>
+          <marker id="c-arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#2563eb"/>
+          </marker>
+          <path id="c-cursor" d="M 0 0 L 0 14 L 4 11 L 6.5 16.5 L 8.5 15.5 L 6 10 L 11 10 Z" fill="#111827"/>
+        </defs>
+
+        <text x="24" y="40" font-size="22" font-weight="700" fill="#111827">What happens when you search — say, for "chap"</text>
+        <text x="24" y="60" font-size="12" fill="#64748b">(simplified — the matching happens inside the kitchen, not inside your page)</text>
+
+        <g>
+          <rect x="20" y="70" width="260" height="360" rx="14" fill="#eff6ff" stroke="#bfdbfe"/>
+          <text x="36" y="90" font-size="12" font-weight="700" letter-spacing="1.5" fill="#2563eb">WHAT YOU SEE</text>
+          <rect x="340" y="70" width="300" height="360" rx="14" fill="#f0fdf4" stroke="#bbf7d0"/>
+          <text x="356" y="90" font-size="12" font-weight="700" letter-spacing="1.5" fill="#16a34a">THE SERVER CODE</text>
+          <rect x="700" y="70" width="240" height="360" rx="14" fill="#fffbeb" stroke="#fde68a"/>
+          <text x="716" y="90" font-size="12" font-weight="700" letter-spacing="1.5" fill="#d97706">WHERE YOUR DATA LIVES</text>
+        </g>
+
+        <g>
+          <rect x="48" y="130" width="204" height="104" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+          <circle cx="60" cy="130" r="12" fill="#111827"/>
+          <text x="60" y="134" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+          <text x="150" y="168" font-size="16" font-weight="700" fill="#111827" text-anchor="middle">The page you see</text>
+          <text x="150" y="188" font-size="12" fill="#6b7280" text-anchor="middle">index.html + app.js</text>
+          <text x="150" y="210" font-size="13" fill="#111827" text-anchor="middle">you type chap in the</text>
+          <text x="150" y="228" font-size="13" fill="#111827" text-anchor="middle">search box</text>
+          <use href="#c-cursor" x="212" y="218"/>
+        </g>
+
+        <g>
+          <rect x="372" y="130" width="236" height="104" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+          <text x="490" y="168" font-size="16" font-weight="700" fill="#111827" text-anchor="middle">The kitchen — your server</text>
+          <text x="490" y="188" font-size="12" fill="#6b7280" text-anchor="middle">server.js</text>
+          <text x="490" y="210" font-size="13" fill="#111827" text-anchor="middle">flips through every page,</text>
+          <text x="490" y="228" font-size="13" fill="#111827" text-anchor="middle">keeps only the matches</text>
+        </g>
+
+        <g>
+          <rect x="724" y="130" width="192" height="104" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+          <text x="820" y="168" font-size="16" font-weight="700" fill="#111827" text-anchor="middle">Your recipe book</text>
+          <text x="820" y="188" font-size="12" fill="#6b7280" text-anchor="middle">recipes.json</text>
+          <text x="820" y="210" font-size="13" fill="#111827" text-anchor="middle">every recipe you</text>
+          <text x="820" y="228" font-size="13" fill="#111827" text-anchor="middle">ever saved</text>
+        </g>
+
+        <g>
+          <line x1="252" y1="182" x2="366" y2="182" stroke="#3f3f46" stroke-width="2" marker-end="url(#c-arrow)"/>
+          <circle cx="310" cy="182" r="12" fill="#111827"/>
+          <text x="310" y="186" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+          <text x="310" y="210" font-size="12" fill="#374151" text-anchor="middle">your search words</text>
+          <text x="310" y="226" font-size="12" fill="#374151" text-anchor="middle">as a question</text>
+        </g>
+
+        <g>
+          <line x1="718" y1="182" x2="614" y2="182" stroke="#3f3f46" stroke-width="2" marker-end="url(#c-arrow)"/>
+          <circle cx="663" cy="182" r="12" fill="#111827"/>
+          <text x="663" y="186" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+          <text x="663" y="210" font-size="12" fill="#374151" text-anchor="middle">every recipe,</text>
+          <text x="663" y="226" font-size="12" fill="#374151" text-anchor="middle">the whole book</text>
+        </g>
+
+        <g>
+          <path d="M 490 234 C 490 320, 150 320, 150 234" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#c-arrow-blue)"/>
+          <circle cx="320" cy="298" r="12" fill="#111827"/>
+          <text x="320" y="302" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+          <text x="320" y="326" font-size="12.5" fill="#2563eb" text-anchor="middle">only the matching recipes</text>
+        </g>
+
+        <g>
+          <rect x="14" y="444" width="932" height="96" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+          <rect x="28" y="456" width="14" height="14" rx="3" fill="#dbeafe" stroke="#2563eb"/>
+          <text x="48" y="468" font-size="12" fill="#374151">what you see (the front end)</text>
+          <rect x="260" y="456" width="14" height="14" rx="3" fill="#dcfce7" stroke="#16a34a"/>
+          <text x="280" y="468" font-size="12" fill="#374151">server code</text>
+          <rect x="380" y="456" width="14" height="14" rx="3" fill="#fef3c7" stroke="#d97706"/>
+          <text x="400" y="468" font-size="12" fill="#374151">where data lives</text>
+          <line x1="540" y1="463" x2="572" y2="463" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="580" y="468" font-size="12" fill="#374151">a problem (error)</text>
+          <line x1="28" y1="501" x2="60" y2="501" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="68" y="506" font-size="12" fill="#374151">a reply coming back</text>
+          <circle cx="244" cy="501" r="12" fill="#111827"/>
+          <text x="244" y="505" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+          <text x="264" y="506" font-size="12" fill="#374151">numbers = story order</text>
+          <use href="#c-cursor" x="440" y="492"/>
+          <text x="460" y="506" font-size="12" fill="#374151">where you (the human) act</text>
+        </g>
+      </svg>
+      <figcaption><strong>In plain words:</strong> ① You type <em>chap</em> in the search box. ② The page sends your search words to the kitchen as a question: <em>any recipes with "chap" in the name or the ingredients?</em> ③ The kitchen pulls out the whole book and flips through every page, keeping only the matches. ④ Only the matching recipes come back, and your list redraws with just those. The search is not magic — the kitchen reads your entire book every single time and simply skips what does not match. That is why it feels instant with ten recipes, and why a million-recipe book would need a smarter kitchen.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Where your recipes live</h2>
+    <p>Your book is a plain text file, <code>recipes.json</code>, sitting next to the code. You can open it in any text editor — here is one page of it, opened up and translated:</p>
+    <figure>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+        <title>Where your recipes live — inside one saved recipe</title>
+        <text x="24" y="40" font-size="22" font-weight="700" fill="#111827">Where your recipes live — inside one saved recipe</text>
+        <text x="24" y="60" font-size="12" fill="#64748b">the file recipes.json, opened up — this is real, you can open it in any text editor</text>
+
+        <g>
+          <rect x="20" y="70" width="560" height="310" rx="14" fill="#fffbeb" stroke="#fde68a"/>
+          <text x="36" y="90" font-size="12" font-weight="700" letter-spacing="1.5" fill="#d97706">ONE PAGE OF YOUR RECIPE BOOK</text>
+          <rect x="48" y="120" width="420" height="225" rx="10" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+          <g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="14" fill="#1f2937">
+            <text x="68" y="152">{</text>
+            <text x="68" y="180">"id": "9b2f6c1e-1111-...",</text>
+            <text x="68" y="208">"title": "Grandma's chapati",</text>
+            <text x="68" y="236">"ingredients": "Flour, water...",</text>
+            <text x="68" y="264">"steps": "Mix, knead...",</text>
+            <text x="68" y="292">"created_at": "2026-10-11T09:00..."</text>
+            <text x="68" y="320">}</text>
+          </g>
+          <text x="68" y="368" font-size="13" fill="#92400e">the whole book is a list of these pages — one per recipe</text>
+        </g>
+
+        <g stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 4">
+          <line x1="303" y1="180" x2="600" y2="180"/>
+          <line x1="328" y1="208" x2="600" y2="208"/>
+          <line x1="362" y1="236" x2="600" y2="236"/>
+          <line x1="303" y1="264" x2="600" y2="264"/>
+          <line x1="379" y1="292" x2="600" y2="292"/>
+        </g>
+        <g font-size="13" fill="#374151">
+          <text x="610" y="184">a unique tag, like a raffle ticket</text>
+          <text x="610" y="212">the name you typed</text>
+          <text x="610" y="240">what goes in it</text>
+          <text x="610" y="268">how you make it</text>
+          <text x="610" y="296">when you saved it, computer style</text>
+        </g>
+      </svg>
+      <figcaption><strong>In plain words:</strong> one saved recipe is a little form with five boxes. You filled in three — the name, the ingredients, the steps, exactly as you typed them. The kitchen stamped the other two for free: a unique tag, so no two pages in the book can ever get mixed up, and the exact moment you saved it. The curly braces and quotation marks are just the book's grammar — a way of writing forms in plain text that both the page and the server can read (the internet's dialect for this is called JSON, and yes, people pronounce it "Jason").</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>The cast of characters</h2>
+    <p>Every file in your project, one human sentence each — including what would happen if it went missing:</p>
+    <pre class="tree">
+recipe-saver/
+├── server.js        → the kitchen — starts with: node server.js. Delete it and nothing answers;
+│                      the page never loads.
+├── public/          → the table and menu — everything your browser shows you
+│   ├── index.html   → the page itself: the form, the search box, the list.
+│   │                  Delete it and the browser shows an error instead of a page.
+│   ├── app.js       → the waiter — carries your clicks to the kitchen and brings answers back.
+│   │                  Delete it and the page loads, but nothing happens when you click.
+│   └── style.css    → the decor — colors, fonts, spacing.
+│                      Delete it and everything still works, just ugly.
+├── recipes.json     → the recipe book — every recipe you ever saved, one page per recipe.
+│                      Delete it and the app still runs, with an empty book. This file is
+│                      the only place your recipes exist — copy it somewhere safe if you love them.
+├── package.json     → the label on the box — the app's name and its one start command.
+└── README.md        → the note you (or your AI) left for future you.
+    </pre>
+  </section>
+
+  <section>
+    <h2>Words you'll hear</h2>
+    <p>Every technical word this document used, in the order you met it:</p>
+    <dl class="glossary">
+      <dt>browser</dt>
+      <dd>The program you are reading this in — Chrome, Safari, Firefox. It opens pages and talks to servers for you.</dd>
+      <dt>server</dt>
+      <dd>The program that listens for requests and answers them. Yours is <code>server.js</code>, and it runs on your own computer, not on the internet.</dd>
+      <dt>page / front end</dt>
+      <dd>Everything you can see and click: the form, the list, the search box. The files in <code>public/</code>. "Front end" is simply the tech name for "the part you see".</dd>
+      <dt>request / response</dt>
+      <dd>One trip: a question your page sends to the server, and the answer that comes back. Every click silently sends one.</dd>
+      <dt>API</dt>
+      <dd>The kitchen's service window: the fixed menu of messages the server understands. Your kitchen understands three — <em>show me the recipes</em>, <em>save this recipe</em>, <em>search for this word</em> — written as the <code>/api/...</code> addresses you may spot in the code.</dd>
+      <dt>JSON</dt>
+      <dd>"Jason" — the plain-text grammar for writing little labeled forms, the one you saw inside a saved recipe. The whole book, and every message between page and kitchen, is written in it.</dd>
+      <dt>localhost / port</dt>
+      <dd>Your own computer's nickname in the browser. <code>http://localhost:3000</code> means "this same machine, door number 3000" — the port is just a numbered door, and the kitchen listens at door 3000.</dd>
+      <dt>validation</dt>
+      <dd>The kitchen's quality check before cooking: "does this recipe have a title?" The polite red error you saw is validation talking.</dd>
+      <dt>unique id</dt>
+      <dd>A made-up tag, long and random, that no two recipes share — like a raffle ticket stapled to each page of the book.</dd>
+      <dt>400 and 404</dt>
+      <dd>The kitchen's numbered ways of saying no. 404: "never heard of that dish" (wrong address). 400: "this order doesn't make sense" (something was missing or unreadable).</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>How to explain it to a friend</h2>
+    <p class="elevator">"Recipe Saver is a digital recipe book that lives on my computer. A page in my browser is the table, a small program called the server is the kitchen, and a single file is the book. When I save a recipe, the kitchen checks it, glues it into the book, and reads the whole book back to my page. When I search, the kitchen flips through every page and serves up only the matches. Nothing goes online — it's all mine."</p>
+  </section>
+</main>
+</body>
+</html>

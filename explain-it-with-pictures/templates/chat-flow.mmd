@@ -1,0 +1,15 @@
+%% Chat-format pattern: plain-language node names with the real file name in
+%% parentheses, labels on every edge, numbers and the walkthrough in the prose
+%% around the diagram. Colors carry the same meanings as the SVG template.
+flowchart LR
+    You["You (fill in the form and click Save)"] -- "your recipe, as a message" --> Server["The kitchen — your server (server.js)"]
+    Server -- "the finished recipe" --> File["Your recipes file (recipes.json)"]
+    Server -- "if something is missing: a friendly error" .-> You
+    Server -- "your updated list — the page quietly asks for it" .-> You
+
+    classDef front fill:#dbeafe,stroke:#2563eb,color:#111
+    classDef code fill:#dcfce7,stroke:#16a34a,color:#111
+    classDef data fill:#fef3c7,stroke:#d97706,color:#111
+    class You front
+    class Server code
+    class File data
