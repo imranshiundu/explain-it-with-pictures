@@ -16,86 +16,83 @@
 
 
 :root {
-  --ink: #0F172A;
-  --body-ink: #1E293B;
-  --muted: #475569;
-  --faint: #94A3B8;
-  --page: #F6F7F9;
-  --paper: #FFFFFF;
-  --hairline: #E2E8F0;
-  --front: #2563EB;   --front-deep: #1D4ED8;   --front-tint: #EEF4FF;
-  --server: #059669;  --server-deep: #047857;  --server-tint: #ECFDF5;
-  --data: #D97706;    --data-deep: #B45309;    --data-tint: #FFFBEB;
-  --error: #E11D48;   --error-text: #BE123C;
-  --reply: #2563EB;   --reply-text: #1D4ED8;
-  --accent: #7C3AED;  --accent-tint: #F5F3FF;
+  --bg: #F2F0E9;
+  --surface: #FFFFFF;
+  --ink: #111827;
+  --muted: #4B5563;
+  --accent: #1D4ED8;
+  --accent-ink: #FFFFFF;
+  --front: #3B82F6;  --front-tint: #DBEAFE;
+  --server: #15803D; --server-tint: #DCFCE7;
+  --data: #B45309;   --data-tint: #FEF3C7;
+  --error: #BE123C;
   --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
   --font-body: 'Inter', -apple-system, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  --shadow-1: 0 1px 2px rgba(15,23,42,.04), 0 4px 16px rgba(15,23,42,.06);
-  --shadow-2: 0 2px 4px rgba(15,23,42,.05), 0 12px 32px rgba(15,23,42,.10);
+  --step-display: clamp(3rem, 1rem + 9vw, 9rem);
+  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --margin: clamp(1rem, 2.2vw, 2rem);
+  --gutter: clamp(0.75rem, 1.4vw, 1.5rem);
+  --space-xs: 4px;  --space-sm: 8px;  --space-md: 16px;  --space-lg: 24px;
+  --space-xl: 32px; --space-2xl: 48px; --space-3xl: 64px;
+  --space-section: 140px;
   --ease-out: cubic-bezier(.22,1,.36,1);
   --spring: cubic-bezier(.34,1.56,.64,1);
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { font: 16.5px/1.7 var(--font-body); margin: 0; background: var(--page); color: var(--body-ink); -webkit-font-smoothing: antialiased; }
+html { scroll-behavior: smooth; color-scheme: light; }
+body { font: var(--step-body)/1.5 var(--font-body); margin: 0; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 ::selection { background: #DDD6FE; }
 
-.topbar { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(20px) saturate(1.8); -webkit-backdrop-filter: blur(20px) saturate(1.8); background: rgba(255,255,255,.72); border-bottom: 1px solid var(--hairline); }
-.topbar-inner { max-width: 880px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); }
+.topbar-inner { padding-inline: var(--margin); padding-block: 14px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .wordmark { font: 600 15px/1.2 var(--font-display); color: var(--ink); letter-spacing: -.01em; }
-.print-btn { font: 600 13px var(--font-body); color: var(--accent); background: var(--accent-tint); border: 1px solid #E9E5F8; border-radius: 999px; padding: 7px 14px; cursor: pointer; transition: transform .15s var(--ease-out), box-shadow .15s; }
-.print-btn:hover { box-shadow: var(--shadow-1); }
+.print-btn { font: 600 13px var(--font-body); color: var(--accent-ink); background: var(--accent); border: 0; border-radius: 0; padding: 7px 14px; cursor: pointer; transition: transform .15s var(--ease-out); }
+.print-btn:hover { filter: brightness(1.1); }
 .print-btn:active { transform: scale(.96); }
-#progress { position: absolute; left: 0; bottom: -1px; width: 100%; height: 2px; background: linear-gradient(90deg, var(--accent), #2563EB); transform-origin: 0 50%; transform: scaleX(0); }
+#progress { position: absolute; left: 0; bottom: 0; width: 100%; height: 4px; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); }
 
-main { max-width: 880px; margin: 40px auto 96px; padding: 0 24px; }
-.sheet { background: var(--paper); border: 1px solid var(--hairline); border-radius: 24px; padding: clamp(32px, 6vw, 72px); box-shadow: var(--shadow-2); }
+main { padding-inline: var(--margin); padding-bottom: 120px; }
+.sheet { background: var(--surface); padding: clamp(32px, 6vw, 72px) var(--margin); }
 
-header.hero { margin-bottom: 8px; }
-h1 { font: 600 clamp(2.1rem, 5vw, 2.85rem)/1.08 var(--font-display); letter-spacing: -.02em; color: var(--ink); margin: 0 0 18px; font-optical-sizing: auto; }
-.hero-kicker { font: 600 12px var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+header.hero { margin-bottom: var(--space-section); }
+h1 { font: 600 var(--step-display)/0.95 var(--font-display); letter-spacing: -0.035em; color: var(--ink); margin: 0 0 18px; font-optical-sizing: auto; text-wrap: balance; }
+h1 + p { font: var(--step-lead)/1.35 var(--font-body); color: var(--ink); max-width: 50ch; margin: 0; }
 
-.plain-words { background: linear-gradient(135deg, #F5F3FF, #EFF6FF); border: 1px solid #E4E8FA; border-radius: 18px; padding: 22px 26px; font-size: 1.02rem; }
-.plain-words .tag { display: inline-block; font: 700 11px var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+section { margin-top: var(--space-section); }
+h2 { font: 600 var(--step-head)/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--ink); margin: 0 0 var(--space-md) 0; font-optical-sizing: auto; }
+h3 { font: 600 var(--step-head)/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--ink); margin: var(--space-2xl) 0 var(--space-md) 0; font-optical-sizing: auto; }
+p { max-width: 68ch; margin: 0 0 var(--space-md) 0; }
+p + p { margin-top: 0.9em; }
+strong { font-weight: 650; }
 
-section { margin-top: 72px; }
-.eyebrow { font: 700 11px var(--font-body); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 10px; }
-h2 { font: 600 1.55rem/1.2 var(--font-display); letter-spacing: -.015em; color: var(--ink); margin: 0 0 14px; font-optical-sizing: auto; }
-h3 { font: 600 1.15rem/1.3 var(--font-display); color: var(--ink); margin: 40px 0 6px; font-optical-sizing: auto; }
-p { max-width: 68ch; margin: 0 0 14px; }
-p:last-child { margin-bottom: 0; }
-strong { font-weight: 650; color: var(--ink); }
-
-figure { margin: 30px 0 0; background: var(--paper); border: 1px solid var(--hairline); border-radius: 20px; padding: clamp(16px, 3vw, 28px); box-shadow: var(--shadow-1); }
+figure { margin: 0 0 var(--space-md) 0; background: var(--surface); padding: clamp(16px, 3vw, 28px); }
 figure svg { width: 100%; height: auto; display: block; }
 figure svg text { font-family: var(--font-body); }
 figure svg .box-sub, figure svg .mono { font-family: var(--font-mono); }
-figcaption { color: var(--muted); font-size: .95rem; line-height: 1.8; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--hairline); }
+figcaption { color: var(--muted); font-size: var(--step-small); line-height: 1.8; margin-top: var(--space-sm); padding-top: var(--space-sm); }
 figcaption strong { color: var(--ink); }
-.step-n { display: inline-flex; align-items: center; justify-content: center; width: 1.5em; height: 1.5em; border-radius: 999px; background: var(--ink); color: #fff; font: 700 .72em/1 var(--font-body); vertical-align: -.2em; margin-right: .15em; }
+.step-n { display: inline-flex; align-items: center; justify-content: center; width: 1.5em; height: 1.5em; border-radius: 50%; background: var(--ink); color: #fff; font: 700 .72em/1 var(--font-body); vertical-align: -.2em; margin-right: .15em; }
 
-pre.tree { background: #F8FAFC; border: 1px solid var(--hairline); border-radius: 16px; padding: 22px 26px; overflow-x: auto; font: 400 13.5px/2 var(--font-mono); color: var(--body-ink); }
-pre.tree .file { font-weight: 700; color: var(--ink); }
-pre.tree .role { color: var(--muted); }
-
-dl.glossary { margin: 20px 0 0; }
-dl.glossary > div { padding: 14px 0; border-top: 1px solid var(--hairline); }
+dl.glossary { margin: var(--space-md) 0 0; }
+dl.glossary > div { padding-block: var(--space-md); background: var(--surface); }
 dl.glossary dt { font: 650 .95rem var(--font-body); color: var(--ink); }
-dl.glossary dd { margin: 4px 0 0; color: var(--muted); font-size: .95rem; }
+dl.glossary dd { margin: var(--space-xs) 0 0; color: var(--muted); font-size: var(--step-small); }
 
-.elevator { margin-top: 26px; background: linear-gradient(135deg, #ECFDF5, #EFF6FF); border: 1px solid #D3EAFD; border-radius: 20px; padding: 28px 32px; font: 500 1.15rem/1.75 var(--font-display); color: var(--ink); font-style: italic; }
+.elevator { margin-top: var(--space-md); padding: var(--space-xl); background: var(--surface); font: 500 1.15rem/1.75 var(--font-display); color: var(--ink); font-style: italic; }
 
-footer.doc { margin-top: 72px; padding-top: 24px; border-top: 1px solid var(--hairline); text-align: center; font-size: .85rem; color: var(--muted); }
+footer.doc { margin-top: var(--space-section); padding-top: var(--space-xl); text-align: center; font-size: var(--step-small); color: var(--muted); }
 footer.doc a { color: var(--accent); text-decoration: none; }
 
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 0; }
 
 @media (prefers-reduced-motion: no-preference) {
   html.js .u-fade { opacity: 0; }
-  html.js .in-view.u-fade { animation: fadeUp .8s var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 90ms); }
+  html.js .in-view.u-fade { animation: fadeUp .8s var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 75ms); }
 
   html.js figure[data-animate] .zone,
   html.js figure[data-animate] .zlabel { opacity: 0; }
@@ -131,11 +128,11 @@ footer.doc a { color: var(--accent); text-decoration: none; }
   html.js figure .inset-item { opacity: 1 !important; transform: none !important; filter: none !important; stroke-dashoffset: 0 !important; stroke-dasharray: none !important; }
   body { background: #fff; font-size: 12pt; }
   .topbar { display: none; }
-  main { margin: 0; max-width: none; padding: 0; }
-  .sheet { border: 0; box-shadow: none; padding: 0; border-radius: 0; }
-  section { margin-top: 48px; }
+  main { padding: 0; }
+  .sheet { padding: 0; }
+  section { margin-top: var(--space-section); }
   h2, h3 { page-break-after: avoid; }
-  figure { page-break-inside: avoid; box-shadow: none; }
+  figure { page-break-inside: avoid; }
 }
 </style>
 </head>
@@ -150,14 +147,11 @@ footer.doc a { color: var(--accent); text-decoration: none; }
 <main>
   <article class="sheet">
     <header class="hero u-fade" data-animate>
-      <div class="hero-kicker">An illustrated guide to your app</div>
       <h1>Recipe Saver — how it works</h1>
-      <p class="plain-words"><span class="tag">In plain words</span><br>
-      Recipe Saver is a small recipe book that lives entirely on your computer. The page you see in your <strong>browser</strong> (the program you are reading this in — Chrome, Safari, Firefox) is the table: a form, a list, a search box. Behind it, a small program called the <strong>server</strong> (the program that listens for requests and answers them) is the kitchen: it checks every recipe you save and keeps the book. The book itself is one file, <strong>recipes.json</strong>. Every click you make travels from the table to the kitchen and an answer travels back — and that loop is the whole app.</p>
+      <p class="u-fade" style="--i:1">Recipe Saver is a small recipe book that lives entirely on your computer. The page you see in your <strong>browser</strong> (the program you are reading this in — Chrome, Safari, Firefox) is the table: a form, a list, a search box. Behind it, a small program called the <strong>server</strong> (the program that listens for requests and answers them) is the kitchen: it checks every recipe you save and keeps the book. The book itself is one file, <strong>recipes.json</strong>. Every click you make travels from the table to the kitchen and an answer travels back — and that loop is the whole app.</p>
     </header>
 
     <section data-animate>
-      <span class="eyebrow">01 · The map</span>
       <h2>The big picture</h2>
       <p class="u-fade" style="--i:1">Three parts, one loop. Once you can read this picture, every other one below is a zoom-in.</p>
       <figure data-animate>
@@ -172,8 +166,8 @@ footer.doc a { color: var(--accent); text-decoration: none; }
             <filter id="a-soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0F172A" flood-opacity="0.10"/></filter>
           </defs>
 
-          <text x="24" y="40" font-size="22" font-weight="650" letter-spacing="-0.3" fill="#0F172A">The big picture — three parts, one loop</text>
-          <text class="lbl" style="--seq:3" x="24" y="60" font-size="12" fill="#475569">you ask, the kitchen answers, the book remembers</text>
+          <text x="24" y="40" font-size="22" font-weight="650" letter-spacing="-0.3" fill="#111827">The big picture — three parts, one loop</text>
+          <text class="lbl" style="--seq:3" x="24" y="60" font-size="12" fill="#4B5563">you ask, the kitchen answers, the book remembers</text>
 
           <g>
             <rect class="zone" x="20" y="70" width="260" height="360" rx="18" fill="#EEF4FF" stroke="#D8E2F8"/>
@@ -187,27 +181,27 @@ footer.doc a { color: var(--accent); text-decoration: none; }
           <g style="--seq:0">
             <rect class="box" x="48" y="130" width="204" height="104" rx="14" fill="url(#a-gFront)" stroke="#93C5FD" stroke-width="1.5" filter="url(#a-soft)"/>
             <g class="bubble"><circle cx="60" cy="130" r="12" fill="url(#a-gInk)"/><text x="60" y="134" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text></g>
-            <text class="box-title" x="150" y="168" font-size="16" font-weight="650" fill="#0F172A" text-anchor="middle">The page you see</text>
-            <text class="box-sub" x="150" y="188" font-size="12" fill="#475569" text-anchor="middle">public/</text>
-            <text class="box-note" x="150" y="210" font-size="13" fill="#334155" text-anchor="middle">what you look at,</text>
-            <text class="box-note" x="150" y="228" font-size="13" fill="#334155" text-anchor="middle">and type into</text>
-            <use href="#a-cursor" x="212" y="218"/>
+            <text class="box-title" x="150" y="168" font-size="16" font-weight="650" fill="#111827" text-anchor="middle">The page you see</text>
+            <text class="box-sub" x="150" y="188" font-size="12" fill="#4B5563" text-anchor="middle">public/</text>
+            <text class="box-note" x="150" y="204" font-size="13" fill="#334155" text-anchor="middle">what you look at,</text>
+            <text class="box-note" x="150" y="220" font-size="13" fill="#334155" text-anchor="middle">and type into</text>
+            <use href="#a-cursor" x="212" y="210"/>
           </g>
 
           <g style="--seq:1">
             <rect class="box" x="372" y="130" width="236" height="104" rx="14" fill="url(#a-gServer)" stroke="#6EE7B7" stroke-width="1.5" filter="url(#a-soft)"/>
-            <text class="box-title" x="490" y="168" font-size="16" font-weight="650" fill="#0F172A" text-anchor="middle">The kitchen — your server</text>
-            <text class="box-sub" x="490" y="188" font-size="12" fill="#475569" text-anchor="middle">server.js</text>
-            <text class="box-note" x="490" y="210" font-size="13" fill="#334155" text-anchor="middle">you start it with the</text>
-            <text class="box-note" x="490" y="228" font-size="13" fill="#334155" text-anchor="middle">command: node server.js</text>
+            <text class="box-title" x="490" y="168" font-size="16" font-weight="650" fill="#111827" text-anchor="middle">The kitchen — server</text>
+            <text class="box-sub" x="490" y="188" font-size="12" fill="#4B5563" text-anchor="middle">server.js</text>
+            <text class="box-note" x="490" y="204" font-size="13" fill="#334155" text-anchor="middle">you start it with the</text>
+            <text class="box-note" x="490" y="220" font-size="13" fill="#334155" text-anchor="middle">command: node server.js</text>
           </g>
 
           <g style="--seq:2">
             <rect class="box" x="724" y="130" width="192" height="104" rx="14" fill="url(#a-gData)" stroke="#FCD34D" stroke-width="1.5" filter="url(#a-soft)"/>
-            <text class="box-title" x="820" y="168" font-size="16" font-weight="650" fill="#0F172A" text-anchor="middle">Your recipe book</text>
-            <text class="box-sub" x="820" y="188" font-size="12" fill="#475569" text-anchor="middle">recipes.json</text>
-            <text class="box-note" x="820" y="210" font-size="13" fill="#334155" text-anchor="middle">every recipe</text>
-            <text class="box-note" x="820" y="228" font-size="13" fill="#334155" text-anchor="middle">you ever save</text>
+            <text class="box-title" x="820" y="168" font-size="16" font-weight="650" fill="#111827" text-anchor="middle">Your recipe book</text>
+            <text class="box-sub" x="820" y="188" font-size="12" fill="#4B5563" text-anchor="middle">recipes.json</text>
+            <text class="box-note" x="820" y="204" font-size="13" fill="#334155" text-anchor="middle">every recipe</text>
+            <text class="box-note" x="820" y="220" font-size="13" fill="#334155" text-anchor="middle">you ever save</text>
           </g>
 
           <g style="--seq:1">
@@ -238,21 +232,21 @@ footer.doc a { color: var(--accent); text-decoration: none; }
           </g>
 
           <g class="legend">
-            <rect x="14" y="444" width="932" height="96" rx="14" fill="#F8FAFC" stroke="#E2E8F0"/>
-            <rect class="lbl" style="--seq:8" x="28" y="456" width="14" height="14" rx="4" fill="#DBEAFE" stroke="#93C5FD"/>
-            <text class="lbl" style="--seq:8" x="48" y="468" font-size="12" fill="#475569">what you see (the front end)</text>
-            <rect class="lbl" style="--seq:8" x="260" y="456" width="14" height="14" rx="4" fill="#D1FAE5" stroke="#6EE7B7"/>
-            <text class="lbl" style="--seq:8" x="280" y="468" font-size="12" fill="#475569">server code</text>
-            <rect class="lbl" style="--seq:8" x="380" y="456" width="14" height="14" rx="4" fill="#FEF3C7" stroke="#FCD34D"/>
-            <text class="lbl" style="--seq:8" x="400" y="468" font-size="12" fill="#475569">where data lives</text>
-            <line class="lbl" style="--seq:8" x1="540" y1="463" x2="572" y2="463" stroke="#E11D48" stroke-width="2" stroke-dasharray="6 4"/>
-            <text class="lbl" style="--seq:8" x="580" y="468" font-size="12" fill="#475569">a problem (error)</text>
-            <line class="lbl" style="--seq:8" x1="28" y1="501" x2="60" y2="501" stroke="#2563EB" stroke-width="2" stroke-dasharray="6 4"/>
-            <text class="lbl" style="--seq:8" x="68" y="506" font-size="12" fill="#475569">a reply coming back</text>
-            <g class="lbl" style="--seq:8"><circle cx="244" cy="501" r="12" fill="url(#a-gInk)"/><text x="244" y="505" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text></g>
-            <text class="lbl" style="--seq:8" x="264" y="506" font-size="12" fill="#475569">numbers = story order</text>
-            <use class="lbl" style="--seq:8" href="#a-cursor" x="440" y="492"/>
-            <text class="lbl" style="--seq:8" x="460" y="506" font-size="12" fill="#475569">where you (the human) act</text>
+            <rect x="14" y="454" width="932" height="86" rx="14" fill="#F8FAFC" stroke="#E2E8F0"/>
+            <rect class="lbl" style="--seq:8" x="28" y="464" width="14" height="14" rx="4" fill="#DBEAFE" stroke="#93C5FD"/>
+            <text class="lbl" style="--seq:8" x="48" y="476" font-size="12" fill="#4B5563">what you see (the front end)</text>
+            <rect class="lbl" style="--seq:8" x="260" y="464" width="14" height="14" rx="4" fill="#D1FAE5" stroke="#6EE7B7"/>
+            <text class="lbl" style="--seq:8" x="280" y="476" font-size="12" fill="#4B5563">server code</text>
+            <rect class="lbl" style="--seq:8" x="380" y="464" width="14" height="14" rx="4" fill="#FEF3C7" stroke="#FCD34D"/>
+            <text class="lbl" style="--seq:8" x="400" y="476" font-size="12" fill="#4B5563">where data lives</text>
+            <line class="lbl" style="--seq:8" x1="540" y1="471" x2="572" y2="471" stroke="#E11D48" stroke-width="2" stroke-dasharray="6 4"/>
+            <text class="lbl" style="--seq:8" x="580" y="476" font-size="12" fill="#4B5563">a problem (error)</text>
+            <line class="lbl" style="--seq:8" x1="28" y1="507" x2="60" y2="507" stroke="#2563EB" stroke-width="2" stroke-dasharray="6 4"/>
+            <text class="lbl" style="--seq:8" x="68" y="512" font-size="12" fill="#4B5563">a reply coming back</text>
+            <g class="lbl" style="--seq:8"><circle cx="244" cy="507" r="12" fill="url(#a-gInk)"/><text x="244" y="511" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text></g>
+            <text class="lbl" style="--seq:8" x="264" y="512" font-size="12" fill="#4B5563">numbers = story order</text>
+            <use class="lbl" style="--seq:8" href="#a-cursor" x="440" y="498"/>
+            <text class="lbl" style="--seq:8" x="460" y="512" font-size="12" fill="#4B5563">where you (the human) act</text>
           </g>
         </svg>
         <figcaption><strong>In plain words:</strong> <span class="step-n">1</span>The page is your table — you look, click, and type. <span class="step-n">2</span>Everything you do is carried to the kitchen: your server, <strong>server.js</strong>, which you start with the command <strong>node server.js</strong>. <span class="step-n">3</span>The kitchen writes new recipes into your book (<strong>recipes.json</strong>) and reads all recipes back out of it. <span class="step-n">4</span>The answer comes back to your page. It is a restaurant at your own desk: menu in front of you, kitchen behind the wall, recipe book in the kitchen. Every click is one loop of ordering and serving — hold this picture and the rest of this document is just zoom.</figcaption>
@@ -260,12 +254,8 @@ footer.doc a { color: var(--accent); text-decoration: none; }
     </section>
 
     <section data-animate>
-      <span class="eyebrow">02 · The stories</span>
-      <h2>What happens when you…</h2>
-      <p class="u-fade" style="--i:1">Two things you can do, two little trips behind the screen. Both start with you, and both end with your page quietly redrawing itself.</p>
-
-      <h3>…save a recipe</h3>
-      <p class="u-fade" style="--i:2">You fill in the title, maybe the ingredients and steps, and click <em>Save recipe</em>. Behind the scenes, five things happen in about a blink:</p>
+      <h2>What happens when you save a recipe</h2>
+      <p class="u-fade" style="--i:1">You fill in the title, maybe the ingredients and steps, and click <em>Save recipe</em>. Behind the scenes, five things happen in about a blink:</p>
       <figure data-animate>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-label="What happens when you save a recipe: the page sends your recipe to the server, the server checks and saves it, and the list updates">
           <title>What happens when you save a recipe</title>
@@ -278,8 +268,8 @@ footer.doc a { color: var(--accent); text-decoration: none; }
             <filter id="b-soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0F172A" flood-opacity="0.10"/></filter>
           </defs>
 
-          <text x="24" y="40" font-size="22" font-weight="650" letter-spacing="-0.3" fill="#0F172A">What happens when you save a recipe</text>
-          <text class="lbl" style="--seq:3" x="24" y="60" font-size="12" fill="#475569">(simplified — the real code also handles searching and a few safety checks)</text>
+          <text x="24" y="40" font-size="22" font-weight="650" letter-spacing="-0.3" fill="#111827">What happens when you save a recipe</text>
+          <text class="lbl" style="--seq:3" x="24" y="60" font-size="12" fill="#4B5563">(simplified — the real code also handles searching and a few safety checks)</text>
 
           <g>
             <rect class="zone" x="20" y="70" width="260" height="360" rx="18" fill="#EEF4FF" stroke="#D8E2F8"/>
@@ -293,26 +283,26 @@ footer.doc a { color: var(--accent); text-decoration: none; }
           <g style="--seq:0">
             <rect class="box" x="48" y="130" width="204" height="104" rx="14" fill="url(#b-gFront)" stroke="#93C5FD" stroke-width="1.5" filter="url(#b-soft)"/>
             <g class="bubble"><circle cx="60" cy="130" r="12" fill="url(#b-gInk)"/><text x="60" y="134" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text></g>
-            <text class="box-title" x="150" y="168" font-size="16" font-weight="650" fill="#0F172A" text-anchor="middle">The page you see</text>
-            <text class="box-sub" x="150" y="188" font-size="12" fill="#475569" text-anchor="middle">public/index.html</text>
-            <text class="box-note" x="150" y="210" font-size="13" fill="#334155" text-anchor="middle">you type your recipe,</text>
-            <text class="box-note" x="150" y="228" font-size="13" fill="#334155" text-anchor="middle">then click Save</text>
-            <use href="#b-cursor" x="212" y="218"/>
+            <text class="box-title" x="150" y="168" font-size="16" font-weight="650" fill="#111827" text-anchor="middle">The page you see</text>
+            <text class="box-sub" x="150" y="188" font-size="12" fill="#4B5563" text-anchor="middle">public/index.html</text>
+            <text class="box-note" x="150" y="204" font-size="13" fill="#334155" text-anchor="middle">you type your recipe,</text>
+            <text class="box-note" x="150" y="220" font-size="13" fill="#334155" text-anchor="middle">then click Save</text>
+            <use href="#b-cursor" x="212" y="210"/>
           </g>
 
           <g style="--seq:2">
             <rect class="box" x="372" y="130" width="236" height="104" rx="14" fill="url(#b-gServer)" stroke="#6EE7B7" stroke-width="1.5" filter="url(#b-soft)"/>
             <g class="bubble"><circle cx="384" cy="130" r="12" fill="url(#b-gInk)"/><text x="384" y="134" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">3</text></g>
-            <text class="box-title" x="490" y="168" font-size="16" font-weight="650" fill="#0F172A" text-anchor="middle">The kitchen — your server</text>
-            <text class="box-sub" x="490" y="188" font-size="12" fill="#475569" text-anchor="middle">server.js</text>
-            <text class="box-note" x="490" y="212" font-size="13" fill="#334155" text-anchor="middle">checks: has it got a title?</text>
+            <text class="box-title" x="490" y="168" font-size="16" font-weight="650" fill="#111827" text-anchor="middle">The kitchen — server</text>
+            <text class="box-sub" x="490" y="188" font-size="12" fill="#4B5563" text-anchor="middle">server.js</text>
+            <text class="box-note" x="490" y="206" font-size="13" fill="#334155" text-anchor="middle">checks: has it a title?</text>
           </g>
 
           <g style="--seq:3">
             <rect class="box" x="724" y="130" width="192" height="104" rx="14" fill="url(#b-gData)" stroke="#FCD34D" stroke-width="1.5" filter="url(#b-soft)"/>
-            <text class="box-title" x="820" y="168" font-size="16" font-weight="650" fill="#0F172A" text-anchor="middle">Your recipe book</text>
-            <text class="box-sub" x="820" y="188" font-size="12" fill="#475569" text-anchor="middle">recipes.json</text>
-            <text class="box-note" x="820" y="212" font-size="13" fill="#334155" text-anchor="middle">one list, saved on disk</text>
+            <text class="box-title" x="820" y="168" font-size="16" font-weight="650" fill="#111827" text-anchor="middle">Your recipe book</text>
+            <text class="box-sub" x="820" y="188" font-size="12" fill="#4B5563" text-anchor="middle">recipes.json</text>
+            <text class="box-note" x="820" y="206" font-size="13" fill="#334155" text-anchor="middle">one list, on disk</text>
           </g>
 
           <g style="--seq:1">
@@ -344,42 +334,44 @@ footer.doc a { color: var(--accent); text-decoration: none; }
             <text class="lbl" x="320" y="326" font-size="12.5" font-weight="550" fill="#1D4ED8" text-anchor="middle">your updated list — the page quietly asks for it</text>
           </g>
 
-          <ellipse class="inset-item" style="--seq:0" cx="310" cy="182" rx="34" ry="22" fill="none" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 4"/>
-          <path class="edge" pathLength="1" style="--seq:9" d="M 310 204 C 310 300, 480 300, 556 322" fill="none" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 4"/>
+          <ellipse class="inset-item" style="--seq:0" cx="310" cy="182" rx="34" ry="22" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-dasharray="6 4"/>
+          <path class="edge" pathLength="1" style="--seq:9" d="M 310 204 C 310 300, 480 300, 556 322" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-dasharray="6 4"/>
           <g class="inset-item" style="--seq:2">
-            <rect x="560" y="268" width="364" height="132" rx="14" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1.5" filter="url(#b-soft)"/>
-            <text x="576" y="292" font-size="12" font-weight="700" letter-spacing="0.06em" fill="#7C3AED">THE MESSAGE, OPENED UP</text>
+            <rect x="560" y="268" width="364" height="132" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5" filter="url(#b-soft)"/>
+            <text x="576" y="292" font-size="12" font-weight="700" letter-spacing="0.06em" fill="#1D4ED8">THE MESSAGE, OPENED UP</text>
             <g class="mono" font-size="12.5" fill="#1F2937">
               <text x="576" y="316">{"title": "Grandma's chapati",</text>
               <text x="576" y="336">"ingredients": "Flour, water...",</text>
               <text x="576" y="356">"steps": "Mix, knead, rest..."}</text>
             </g>
-            <text x="576" y="380" font-size="11.5" fill="#475569">the page's exact words, as the kitchen reads them</text>
+            <text x="576" y="380" font-size="11.5" fill="#4B5563">the page's exact words</text>
           </g>
 
           <g class="legend">
-            <rect x="14" y="444" width="932" height="96" rx="14" fill="#F8FAFC" stroke="#E2E8F0"/>
-            <rect class="lbl" style="--seq:8" x="28" y="456" width="14" height="14" rx="4" fill="#DBEAFE" stroke="#93C5FD"/>
-            <text class="lbl" style="--seq:8" x="48" y="468" font-size="12" fill="#475569">what you see (the front end)</text>
-            <rect class="lbl" style="--seq:8" x="260" y="456" width="14" height="14" rx="4" fill="#D1FAE5" stroke="#6EE7B7"/>
-            <text class="lbl" style="--seq:8" x="280" y="468" font-size="12" fill="#475569">server code</text>
-            <rect class="lbl" style="--seq:8" x="380" y="456" width="14" height="14" rx="4" fill="#FEF3C7" stroke="#FCD34D"/>
-            <text class="lbl" style="--seq:8" x="400" y="468" font-size="12" fill="#475569">where data lives</text>
-            <line class="lbl" style="--seq:8" x1="540" y1="463" x2="572" y2="463" stroke="#E11D48" stroke-width="2" stroke-dasharray="6 4"/>
-            <text class="lbl" style="--seq:8" x="580" y="468" font-size="12" fill="#475569">a problem (error)</text>
-            <line class="lbl" style="--seq:8" x1="28" y1="501" x2="60" y2="501" stroke="#2563EB" stroke-width="2" stroke-dasharray="6 4"/>
-            <text class="lbl" style="--seq:8" x="68" y="506" font-size="12" fill="#475569">a reply coming back</text>
-            <g class="lbl" style="--seq:8"><circle cx="244" cy="501" r="12" fill="url(#b-gInk)"/><text x="244" y="505" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text></g>
-            <text class="lbl" style="--seq:8" x="264" y="506" font-size="12" fill="#475569">numbers = story order</text>
-            <use class="lbl" style="--seq:8" href="#b-cursor" x="440" y="492"/>
-            <text class="lbl" style="--seq:8" x="460" y="506" font-size="12" fill="#475569">where you (the human) act</text>
+            <rect x="14" y="454" width="932" height="86" rx="14" fill="#F8FAFC" stroke="#E2E8F0"/>
+            <rect class="lbl" style="--seq:8" x="28" y="464" width="14" height="14" rx="4" fill="#DBEAFE" stroke="#93C5FD"/>
+            <text class="lbl" style="--seq:8" x="48" y="476" font-size="12" fill="#4B5563">what you see (the front end)</text>
+            <rect class="lbl" style="--seq:8" x="260" y="464" width="14" height="14" rx="4" fill="#D1FAE5" stroke="#6EE7B7"/>
+            <text class="lbl" style="--seq:8" x="280" y="476" font-size="12" fill="#4B5563">server code</text>
+            <rect class="lbl" style="--seq:8" x="380" y="464" width="14" height="14" rx="4" fill="#FEF3C7" stroke="#FCD34D"/>
+            <text class="lbl" style="--seq:8" x="400" y="476" font-size="12" fill="#4B5563">where data lives</text>
+            <line class="lbl" style="--seq:8" x1="540" y1="471" x2="572" y2="471" stroke="#E11D48" stroke-width="2" stroke-dasharray="6 4"/>
+            <text class="lbl" style="--seq:8" x="580" y="476" font-size="12" fill="#4B5563">a problem (error)</text>
+            <line class="lbl" style="--seq:8" x1="28" y1="507" x2="60" y2="507" stroke="#2563EB" stroke-width="2" stroke-dasharray="6 4"/>
+            <text class="lbl" style="--seq:8" x="68" y="512" font-size="12" fill="#4B5563">a reply coming back</text>
+            <g class="lbl" style="--seq:8"><circle cx="244" cy="507" r="12" fill="url(#b-gInk)"/><text x="244" y="511" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text></g>
+            <text class="lbl" style="--seq:8" x="264" y="512" font-size="12" fill="#4B5563">numbers = story order</text>
+            <use class="lbl" style="--seq:8" href="#b-cursor" x="440" y="498"/>
+            <text class="lbl" style="--seq:8" x="460" y="512" font-size="12" fill="#4B5563">where you (the human) act</text>
           </g>
         </svg>
-        <figcaption><strong>In plain words:</strong> <span class="step-n">1</span>You type your recipe and click <em>Save</em>. <span class="step-n">2</span>The page wraps what you typed into a message — the violet card shows exactly what it looks like on its way over. <span class="step-n">3</span>The kitchen does one quality check — does it have a title? If something is missing, the red arrow sends a friendly error straight back to your form and nothing gets saved. <span class="step-n">4</span>If the recipe passes, the kitchen writes it on a fresh page of your book, right next to everything you saved before. <span class="step-n">5</span>Then, quietly and without you doing anything, your page asks for the whole book again and redraws the list — that is why your new recipe appears instantly.</figcaption>
+        <figcaption><strong>In plain words:</strong> <span class="step-n">1</span>You type your recipe and click <em>Save</em>. <span class="step-n">2</span>The page wraps what you typed into a message — the inset shows exactly what it looks like on its way over. <span class="step-n">3</span>The kitchen does one quality check — does it have a title? If something is missing, the red arrow sends a friendly error straight back to your form and nothing gets saved. <span class="step-n">4</span>If the recipe passes, the kitchen writes it on a fresh page of your book, right next to everything you saved before. <span class="step-n">5</span>Then, quietly and without you doing anything, your page asks for the whole book again and redraws the list — that is why your new recipe appears instantly.</figcaption>
       </figure>
+    </section>
 
-      <h3>…search for a recipe</h3>
-      <p class="u-fade" style="--i:2">Every letter you type in the search box triggers the same little trip. Here it is with the word <em>chap</em>:</p>
+    <section data-animate>
+      <h2>What happens when you search</h2>
+      <p class="u-fade" style="--i:1">Every letter you type in the search box triggers the same little trip. Here it is with the word <em>chap</em>:</p>
       <figure data-animate>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-label="What happens when you search: the page sends your search words, the server flips through the whole book, and only matches come back">
           <title>What happens when you search — say, for "chap"</title>
@@ -392,8 +384,8 @@ footer.doc a { color: var(--accent); text-decoration: none; }
             <filter id="c-soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0F172A" flood-opacity="0.10"/></filter>
           </defs>
 
-          <text x="24" y="40" font-size="22" font-weight="650" letter-spacing="-0.3" fill="#0F172A">What happens when you search — say, for "chap"</text>
-          <text class="lbl" style="--seq:3" x="24" y="60" font-size="12" fill="#475569">(simplified — the matching happens inside the kitchen, not inside your page)</text>
+          <text x="24" y="40" font-size="22" font-weight="650" letter-spacing="-0.3" fill="#111827">What happens when you search — say, for "chap"</text>
+          <text class="lbl" style="--seq:3" x="24" y="60" font-size="12" fill="#4B5563">(simplified — the matching happens inside the kitchen, not inside your page)</text>
 
           <g>
             <rect class="zone" x="20" y="70" width="260" height="360" rx="18" fill="#EEF4FF" stroke="#D8E2F8"/>
@@ -407,34 +399,34 @@ footer.doc a { color: var(--accent); text-decoration: none; }
           <g style="--seq:0">
             <rect class="box" x="48" y="130" width="204" height="104" rx="14" fill="url(#c-gFront)" stroke="#93C5FD" stroke-width="1.5" filter="url(#c-soft)"/>
             <g class="bubble"><circle cx="60" cy="130" r="12" fill="url(#c-gInk)"/><text x="60" y="134" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text></g>
-            <text class="box-title" x="150" y="168" font-size="16" font-weight="650" fill="#0F172A" text-anchor="middle">The page you see</text>
-            <text class="box-sub" x="150" y="188" font-size="12" fill="#475569" text-anchor="middle">index.html + app.js</text>
-            <text class="box-note" x="150" y="210" font-size="13" fill="#334155" text-anchor="middle">you type chap in the</text>
-            <text class="box-note" x="150" y="228" font-size="13" fill="#334155" text-anchor="middle">search box</text>
-            <use href="#c-cursor" x="212" y="218"/>
+            <text class="box-title" x="150" y="168" font-size="16" font-weight="650" fill="#111827" text-anchor="middle">The page you see</text>
+            <text class="box-sub" x="150" y="188" font-size="12" fill="#4B5563" text-anchor="middle">index.html + app.js</text>
+            <text class="box-note" x="150" y="204" font-size="13" fill="#334155" text-anchor="middle">you type chap in the</text>
+            <text class="box-note" x="150" y="220" font-size="13" fill="#334155" text-anchor="middle">search box</text>
+            <use href="#c-cursor" x="212" y="210"/>
           </g>
 
           <g style="--seq:2">
             <rect class="box" x="372" y="130" width="236" height="104" rx="14" fill="url(#c-gServer)" stroke="#6EE7B7" stroke-width="1.5" filter="url(#c-soft)"/>
-            <text class="box-title" x="490" y="168" font-size="16" font-weight="650" fill="#0F172A" text-anchor="middle">The kitchen — your server</text>
-            <text class="box-sub" x="490" y="188" font-size="12" fill="#475569" text-anchor="middle">server.js</text>
-            <text class="box-note" x="490" y="210" font-size="13" fill="#334155" text-anchor="middle">flips through every page,</text>
-            <text class="box-note" x="490" y="228" font-size="13" fill="#334155" text-anchor="middle">keeps only the matches</text>
+            <text class="box-title" x="490" y="168" font-size="16" font-weight="650" fill="#111827" text-anchor="middle">The kitchen — server</text>
+            <text class="box-sub" x="490" y="188" font-size="12" fill="#4B5563" text-anchor="middle">server.js</text>
+            <text class="box-note" x="490" y="204" font-size="13" fill="#334155" text-anchor="middle">flips through every page,</text>
+            <text class="box-note" x="490" y="220" font-size="13" fill="#334155" text-anchor="middle">keeps only the matches</text>
           </g>
 
           <g style="--seq:2">
             <rect class="box" x="724" y="130" width="192" height="104" rx="14" fill="url(#c-gData)" stroke="#FCD34D" stroke-width="1.5" filter="url(#c-soft)"/>
-            <text class="box-title" x="820" y="168" font-size="16" font-weight="650" fill="#0F172A" text-anchor="middle">Your recipe book</text>
-            <text class="box-sub" x="820" y="188" font-size="12" fill="#475569" text-anchor="middle">recipes.json</text>
-            <text class="box-note" x="820" y="210" font-size="13" fill="#334155" text-anchor="middle">every recipe you</text>
-            <text class="box-note" x="820" y="228" font-size="13" fill="#334155" text-anchor="middle">ever saved</text>
+            <text class="box-title" x="820" y="168" font-size="16" font-weight="650" fill="#111827" text-anchor="middle">Your recipe book</text>
+            <text class="box-sub" x="820" y="188" font-size="12" fill="#4B5563" text-anchor="middle">recipes.json</text>
+            <text class="box-note" x="820" y="204" font-size="13" fill="#334155" text-anchor="middle">every recipe you</text>
+            <text class="box-note" x="820" y="220" font-size="13" fill="#334155" text-anchor="middle">ever saved</text>
           </g>
 
           <g style="--seq:1">
             <line class="edge" pathLength="1" x1="252" y1="182" x2="364" y2="182" stroke="#475569" stroke-width="2.25"/>
             <path class="head" d="M 359 176 L 370 182 L 359 188 Z" fill="#475569"/>
             <g class="bubble"><circle cx="310" cy="182" r="12" fill="url(#c-gInk)"/><text x="310" y="186" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">2</text></g>
-            <text class="lbl" x="310" y="210" font-size="12" fill="#374151" text-anchor="middle">your search words</text>
+            <text class="lbl" x="310" y="210" font-size="12" fill="#374151" text-anchor="middle">search words</text>
             <text class="lbl" x="310" y="226" font-size="12" fill="#374151" text-anchor="middle">as a question</text>
           </g>
 
@@ -454,21 +446,21 @@ footer.doc a { color: var(--accent); text-decoration: none; }
           </g>
 
           <g class="legend">
-            <rect x="14" y="444" width="932" height="96" rx="14" fill="#F8FAFC" stroke="#E2E8F0"/>
-            <rect class="lbl" style="--seq:7" x="28" y="456" width="14" height="14" rx="4" fill="#DBEAFE" stroke="#93C5FD"/>
-            <text class="lbl" style="--seq:7" x="48" y="468" font-size="12" fill="#475569">what you see (the front end)</text>
-            <rect class="lbl" style="--seq:7" x="260" y="456" width="14" height="14" rx="4" fill="#D1FAE5" stroke="#6EE7B7"/>
-            <text class="lbl" style="--seq:7" x="280" y="468" font-size="12" fill="#475569">server code</text>
-            <rect class="lbl" style="--seq:7" x="380" y="456" width="14" height="14" rx="4" fill="#FEF3C7" stroke="#FCD34D"/>
-            <text class="lbl" style="--seq:7" x="400" y="468" font-size="12" fill="#475569">where data lives</text>
-            <line class="lbl" style="--seq:7" x1="540" y1="463" x2="572" y2="463" stroke="#E11D48" stroke-width="2" stroke-dasharray="6 4"/>
-            <text class="lbl" style="--seq:7" x="580" y="468" font-size="12" fill="#475569">a problem (error)</text>
-            <line class="lbl" style="--seq:7" x1="28" y1="501" x2="60" y2="501" stroke="#2563EB" stroke-width="2" stroke-dasharray="6 4"/>
-            <text class="lbl" style="--seq:7" x="68" y="506" font-size="12" fill="#475569">a reply coming back</text>
-            <g class="lbl" style="--seq:7"><circle cx="244" cy="501" r="12" fill="url(#c-gInk)"/><text x="244" y="505" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text></g>
-            <text class="lbl" style="--seq:7" x="264" y="506" font-size="12" fill="#475569">numbers = story order</text>
-            <use class="lbl" style="--seq:7" href="#c-cursor" x="440" y="492"/>
-            <text class="lbl" style="--seq:7" x="460" y="506" font-size="12" fill="#475569">where you (the human) act</text>
+            <rect x="14" y="454" width="932" height="86" rx="14" fill="#F8FAFC" stroke="#E2E8F0"/>
+            <rect class="lbl" style="--seq:7" x="28" y="464" width="14" height="14" rx="4" fill="#DBEAFE" stroke="#93C5FD"/>
+            <text class="lbl" style="--seq:7" x="48" y="476" font-size="12" fill="#4B5563">what you see (the front end)</text>
+            <rect class="lbl" style="--seq:7" x="260" y="464" width="14" height="14" rx="4" fill="#D1FAE5" stroke="#6EE7B7"/>
+            <text class="lbl" style="--seq:7" x="280" y="476" font-size="12" fill="#4B5563">server code</text>
+            <rect class="lbl" style="--seq:7" x="380" y="464" width="14" height="14" rx="4" fill="#FEF3C7" stroke="#FCD34D"/>
+            <text class="lbl" style="--seq:7" x="400" y="476" font-size="12" fill="#4B5563">where data lives</text>
+            <line class="lbl" style="--seq:7" x1="540" y1="471" x2="572" y2="471" stroke="#E11D48" stroke-width="2" stroke-dasharray="6 4"/>
+            <text class="lbl" style="--seq:7" x="580" y="476" font-size="12" fill="#4B5563">a problem (error)</text>
+            <line class="lbl" style="--seq:7" x1="28" y1="507" x2="60" y2="507" stroke="#2563EB" stroke-width="2" stroke-dasharray="6 4"/>
+            <text class="lbl" style="--seq:7" x="68" y="512" font-size="12" fill="#4B5563">a reply coming back</text>
+            <g class="lbl" style="--seq:7"><circle cx="244" cy="507" r="12" fill="url(#c-gInk)"/><text x="244" y="511" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text></g>
+            <text class="lbl" style="--seq:7" x="264" y="512" font-size="12" fill="#4B5563">numbers = story order</text>
+            <use class="lbl" style="--seq:7" href="#c-cursor" x="440" y="498"/>
+            <text class="lbl" style="--seq:7" x="460" y="512" font-size="12" fill="#4B5563">where you (the human) act</text>
           </g>
         </svg>
         <figcaption><strong>In plain words:</strong> <span class="step-n">1</span>You type <em>chap</em> in the search box. <span class="step-n">2</span>The page sends your search words to the kitchen as a question: <em>any recipes with "chap" in the name or the ingredients?</em> <span class="step-n">3</span>The kitchen pulls out the whole book and flips through every page, keeping only the matches. <span class="step-n">4</span>Only the matching recipes come back, and your list redraws with just those. The search is not magic — the kitchen reads your entire book every single time and simply skips what does not match. That is why it feels instant with ten recipes, and why a million-recipe book would need a smarter kitchen.</figcaption>
@@ -476,7 +468,6 @@ footer.doc a { color: var(--accent); text-decoration: none; }
     </section>
 
     <section data-animate>
-      <span class="eyebrow">03 · The data</span>
       <h2>Where your recipes live</h2>
       <p class="u-fade" style="--i:1">Your book is a plain text file, <strong>recipes.json</strong>, sitting next to the code. You can open it in any text editor — here is one page of it, opened up and translated:</p>
       <figure data-animate>
@@ -486,8 +477,8 @@ footer.doc a { color: var(--accent); text-decoration: none; }
             <filter id="d-soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0F172A" flood-opacity="0.10"/></filter>
           </defs>
 
-          <text x="24" y="40" font-size="22" font-weight="650" letter-spacing="-0.3" fill="#0F172A">Where your recipes live — inside one saved recipe</text>
-          <text class="lbl" style="--seq:1" x="24" y="60" font-size="12" fill="#475569">the file recipes.json, opened up — this is real, you can open it in any text editor</text>
+          <text x="24" y="40" font-size="22" font-weight="650" letter-spacing="-0.3" fill="#111827">Where your recipes live — inside one saved recipe</text>
+          <text class="lbl" style="--seq:1" x="24" y="60" font-size="12" fill="#4B5563">the file recipes.json, opened up — this is real, you can open it in any text editor</text>
 
           <g>
             <rect class="zone" x="20" y="70" width="560" height="310" rx="18" fill="#FFFBEB" stroke="#F3E5B8"/>
@@ -525,28 +516,112 @@ footer.doc a { color: var(--accent); text-decoration: none; }
     </section>
 
     <section data-animate>
-      <span class="eyebrow">04 · The files</span>
-      <h2>The cast of characters</h2>
-      <p class="u-fade" style="--i:1">Every file in your project, one human sentence each — including what would happen if it went missing:</p>
-      <pre class="tree u-fade" style="--i:2"><span class="file">recipe-saver/</span>
-├── <span class="file">server.js</span>        <span class="role">→ the kitchen — starts with: node server.js. Delete it and nothing answers;</span>
-│                      <span class="role">the page never loads.</span>
-├── <span class="file">public/</span>          <span class="role">→ the table and menu — everything your browser shows you</span>
-│   ├── <span class="file">index.html</span>   <span class="role">→ the page itself: the form, the search box, the list. Delete it and the</span>
-│   │                  <span class="role">browser shows an error instead of a page.</span>
-│   ├── <span class="file">app.js</span>       <span class="role">→ the waiter — carries your clicks to the kitchen and brings answers back.</span>
-│   │                  <span class="role">Delete it and the page loads, but nothing happens when you click.</span>
-│   └── <span class="file">style.css</span>    <span class="role">→ the decor — colors, fonts, spacing. Delete it and everything still</span>
-│                      <span class="role">works, just ugly.</span>
-├── <span class="file">recipes.json</span>     <span class="role">→ the recipe book — every recipe you ever saved, one page per recipe.</span>
-│                      <span class="role">Delete it and the app still runs, with an empty book. This file is the</span>
-│                      <span class="role">only place your recipes exist — copy it somewhere safe if you love them.</span>
-├── <span class="file">package.json</span>     <span class="role">→ the label on the box — the app's name and its one start command.</span>
-└── <span class="file">README.md</span>        <span class="role">→ the note you (or your AI) left for future you.</span></pre>
+      <h2>The book over time</h2>
+      <p class="u-fade" style="--i:1">Four states, one file — what your book looks like from the day you start it to the day a recipe loses its name:</p>
+      <figure data-animate>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 270" role="img" aria-label="Small multiples: the recipe book in four states — empty, one recipe, many recipes, error">
+          <title>The book over time — four states, one file</title>
+
+          <text x="24" y="40" font-size="22" font-weight="650" letter-spacing="-0.3" fill="#111827">The book over time</text>
+
+          <g style="--seq:0">
+            <rect class="box" x="15" y="70" width="210" height="150" rx="14" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+            <text class="box-title" x="31" y="102" font-size="14" font-weight="650" fill="#111827">Empty</text>
+            <text class="box-note" x="31" y="126" font-size="12.5" fill="#374151">nothing saved yet</text>
+            <text class="box-note" x="31" y="146" font-size="12.5" fill="#374151">the book awaits</text>
+          </g>
+          <g style="--seq:1">
+            <rect class="box" x="255" y="70" width="210" height="150" rx="14" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5"/>
+            <text class="box-title" x="271" y="102" font-size="14" font-weight="650" fill="#111827">One recipe</text>
+            <text class="box-note" x="271" y="126" font-size="12.5" fill="#374151">Grandma's chapati</text>
+            <text class="box-note" x="271" y="146" font-size="12.5" fill="#374151">saved just now</text>
+          </g>
+          <g style="--seq:2">
+            <rect class="box" x="495" y="70" width="210" height="150" rx="14" fill="#DCFCE7" stroke="#6EE7B7" stroke-width="1.5"/>
+            <text class="box-title" x="511" y="102" font-size="14" font-weight="650" fill="#111827">Many recipes</text>
+            <text class="box-note" x="511" y="126" font-size="12.5" fill="#374151">chapati, soup, curry…</text>
+            <text class="box-note" x="511" y="146" font-size="12.5" fill="#374151">still one file</text>
+          </g>
+          <g style="--seq:3">
+            <rect class="box" x="735" y="70" width="210" height="150" rx="14" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="1.5"/>
+            <text class="box-title" x="751" y="102" font-size="14" font-weight="650" fill="#BE123C">Error</text>
+            <text class="box-note" x="751" y="126" font-size="12.5" fill="#BE123C">title missing</text>
+            <text class="box-note" x="751" y="146" font-size="12.5" fill="#374151">nothing was saved</text>
+          </g>
+        </svg>
+        <figcaption><strong>In plain words:</strong> read left to right — an empty book, your first recipe, a growing collection, and what happens when a recipe arrives without a name: the kitchen refuses it politely and nothing is saved. The book only ever grows through step <span class="step-n">4</span> of the save story — one file, one list, every state you will ever meet.</figcaption>
+      </figure>
     </section>
 
     <section data-animate>
-      <span class="eyebrow">05 · The words</span>
+      <h2>The cast of characters</h2>
+      <p class="u-fade" style="--i:1">Every file in your project, nested the way it really lives on disk — one human sentence each:</p>
+      <figure data-animate>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 448" role="img" aria-label="Hierarchy of the project files: the root folder contains the server, the public folder with its three files, the recipe book, the package label and the readme">
+          <title>The cast of characters — project file hierarchy</title>
+          <defs>
+            <filter id="e-soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0F172A" flood-opacity="0.10"/></filter>
+          </defs>
+
+          <text x="24" y="40" font-size="22" font-weight="650" letter-spacing="-0.3" fill="#111827">The cast of characters</text>
+
+          <g style="--seq:0">
+            <rect class="box" x="40" y="70" width="880" height="348" rx="14" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+            <text class="box-title mono" x="56" y="96" font-size="14" font-weight="600" fill="#111827">recipe-saver/</text>
+          </g>
+
+          <g style="--seq:1">
+            <rect class="box" x="70" y="130" width="240" height="80" rx="12" fill="#DCFCE7" stroke="#6EE7B7" stroke-width="1.5" filter="url(#e-soft)"/>
+            <text class="box-title" x="86" y="154" font-size="14" font-weight="650" fill="#111827">The kitchen</text>
+            <text class="box-sub" x="86" y="172" font-size="12" fill="#4B5563">server.js</text>
+            <text class="box-note" x="86" y="190" font-size="11" fill="#374151">starts with node server.js</text>
+          </g>
+
+          <g style="--seq:2">
+            <rect class="box" x="340" y="130" width="280" height="272" rx="12" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5" filter="url(#e-soft)"/>
+            <text class="box-title" x="356" y="152" font-size="14" font-weight="650" fill="#111827">The table and menu</text>
+            <text class="box-sub" x="356" y="170" font-size="12" fill="#4B5563">public/</text>
+            <g style="--seq:3">
+              <rect class="box" x="360" y="186" width="240" height="52" rx="10" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.5"/>
+              <text class="box-title mono" x="376" y="206" font-size="13" fill="#111827">index.html</text>
+              <text class="box-note" x="376" y="224" font-size="11" fill="#374151">the form, the list</text>
+            </g>
+            <g style="--seq:4">
+              <rect class="box" x="360" y="262" width="240" height="52" rx="10" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.5"/>
+              <text class="box-title mono" x="376" y="282" font-size="13" fill="#111827">app.js</text>
+              <text class="box-note" x="376" y="300" font-size="11" fill="#374151">carries your clicks</text>
+            </g>
+            <g style="--seq:5">
+              <rect class="box" x="360" y="338" width="240" height="52" rx="10" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.5"/>
+              <text class="box-title mono" x="376" y="358" font-size="13" fill="#111827">style.css</text>
+              <text class="box-note" x="376" y="376" font-size="11" fill="#374151">colors, fonts, spacing</text>
+            </g>
+          </g>
+
+          <g style="--seq:6">
+            <rect class="box" x="650" y="130" width="250" height="72" rx="12" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.5" filter="url(#e-soft)"/>
+            <text class="box-title" x="666" y="152" font-size="14" font-weight="650" fill="#111827">The recipe book</text>
+            <text class="box-sub" x="666" y="170" font-size="12" fill="#4B5563">recipes.json</text>
+            <text class="box-note" x="666" y="188" font-size="11" fill="#374151">every recipe you saved</text>
+          </g>
+          <g style="--seq:7">
+            <rect class="box" x="650" y="226" width="250" height="72" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" filter="url(#e-soft)"/>
+            <text class="box-title" x="666" y="248" font-size="14" font-weight="650" fill="#111827">The label</text>
+            <text class="box-sub" x="666" y="266" font-size="12" fill="#4B5563">package.json</text>
+            <text class="box-note" x="666" y="284" font-size="11" fill="#374151">name + start command</text>
+          </g>
+          <g style="--seq:8">
+            <rect class="box" x="650" y="322" width="250" height="72" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" filter="url(#e-soft)"/>
+            <text class="box-title" x="666" y="344" font-size="14" font-weight="650" fill="#111827">The note</text>
+            <text class="box-sub" x="666" y="362" font-size="12" fill="#4B5563">README.md</text>
+            <text class="box-note" x="666" y="380" font-size="11" fill="#374151">for future you</text>
+          </g>
+        </svg>
+        <figcaption><strong>In plain words:</strong> one folder holds everything. <strong>server.js</strong> is the kitchen — delete it and nothing answers. <strong>index.html</strong> is the page itself; <strong>app.js</strong> the waiter — delete it and the page loads but clicks do nothing; <strong>style.css</strong> the decor — delete it and everything still works, just ugly. <strong>recipes.json</strong> is the book — the only place your recipes exist, so copy it somewhere safe if you love them. <strong>package.json</strong> is the label on the box; <strong>README.md</strong> the note for future you.</figcaption>
+      </figure>
+    </section>
+
+    <section data-animate>
       <h2>Words you'll hear</h2>
       <p class="u-fade" style="--i:1">Every technical word this document used, in the order you met it:</p>
       <dl class="glossary">
@@ -564,7 +639,6 @@ footer.doc a { color: var(--accent); text-decoration: none; }
     </section>
 
     <section data-animate>
-      <span class="eyebrow">06 · The short version</span>
       <h2>How to explain it to a friend</h2>
       <p class="elevator u-fade" style="--i:1">"Recipe Saver is a digital recipe book that lives on my computer. A page in my browser is the table, a small program called the server is the kitchen, and a single file is the book. When I save a recipe, the kitchen checks it, glues it into the book, and reads the whole book back to my page. When I search, the kitchen flips through every page and serves up only the matches. Nothing goes online — it's all mine."</p>
     </section>

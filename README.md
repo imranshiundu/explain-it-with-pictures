@@ -1,30 +1,32 @@
 # Explain It With Pictures
 
-An open-source skill for AI coding agents (Claude Code, opencode, Cursor, Codex…) that turns any codebase into **illustrated, annotated explanations a non-technical person can follow** — with the polish of a designed product, not a generated doc.
+An open-source skill for AI coding agents (Claude Code, opencode, Cursor, Codex…) that turns any codebase into **illustrated, annotated explanations a non-technical person can follow** — with a locked design system, a checker-enforced geometry, and a story structure, so agents stop producing the overlapping-box diagrams you've seen everywhere.
 
-Built for **vibe coders** — people who build working software by prompting AI and end up owning something they can't fully explain. Ask your agent *"explain how my project works"* and instead of a wall of jargon you get a single illustrated HTML document: hand-drawn diagrams that animate their story step by step, labeled arrows, plain-words captions, an annotated file tree, and a glossary.
+Built for **vibe coders** — people who build working software by prompting AI and end up owning something they can't explain. Ask your agent *"explain how my project works"* and instead of a wall of jargon you get a single illustrated HTML document: hand-drawn diagrams that animate their story step by step, labeled arrows, plain-words captions, an annotated file hierarchy, and a glossary.
 
 ![The big-picture diagram from the example explainer](assets/example-big-picture.png)
-*A diagram the skill produced for a small real app: labeled zones, dual-labeled boxes (plain words + real filename), numbered story bubbles, labeled arrows, a legend.*
+*A diagram the skill produced for a small real app: labeled zones, dual-labeled boxes (plain words + real filename), numbered story bubbles, labeled arrows, a legend — every gap and label mechanically checked.*
 
 ## Free and simple, on purpose
 
 - **Hand-drawn, not AI-generated.** The agent draws SVG diagrams itself. Text stays crisp, edits are one-line changes, files stay tiny — and it never calls an image-generation API.
-- **One self-contained file.** No dependencies, no CDNs, no build step. Fonts are embedded as base64 (SIL OFL), so it opens offline with its typography intact and prints to a clean PDF. Try it: [recipe-saver-explainer.pdf](assets/recipe-saver-explainer.pdf) (7 pages, straight from Print).
+- **One self-contained file.** No dependencies, no CDNs, no build step. Fonts are embedded as base64 (SIL OFL), so it opens offline with its typography intact and prints to a clean PDF. Try it: [recipe-saver-explainer.pdf](assets/recipe-saver-explainer.pdf) (9 pages, straight from Print).
 - **Zero paid services.** No accounts, no network calls, no API keys.
 - **Readable by someone who has never coded.** Every technical word defined at first use and gathered into a glossary; every diagram ends with an "In plain words:" analogy caption.
 
-## Design language
+## What's in the design system
 
-The templates ship a complete, opinionated design system — the example below is generated from it, not hand-tuned:
+The skill ships more than rules — it ships *enforcement*:
 
 | Layer | What it does |
 |---|---|
-| **Typography** | Fraunces (display serif) for titles, Inter for body, JetBrains Mono for real names and code — embedded, subset, offline |
-| **Motion** | One reveal per diagram, on scroll, in story order: zones settle → boxes fade → arrows draw themselves → numbered bubbles pop → zoom-in insets last. All under 1.2s, spring-eased |
-| **Accessibility** | Reduced-motion gets the fully-rendered static page; JS dies → content stays visible; every diagram has a `<title>`; print forces final states |
-| **Color** | Five semantic colors (front end / server / data / errors / replies), violet as the signature accent — every pair WCAG-checked |
-| **Structure** | Sticky blurred header with reading progress, numbered chapters, generous spacing, print-safe layout |
+| **Type scale** | Five sizes, far apart: Fraunces (display) for titles, Inter for body, JetBrains Mono for real names — embedded, subset, offline |
+| **Geometry safety** | Box width = text + 2×14px padding; 8px text-to-edge clearance; 24px box-to-box gaps; labels in gutters; arrows at box edges. Enforced by `scripts/check-svg.py` — overlapping text is a build failure, not a hope |
+| **Diagram library** | Seven types, chosen by the question they answer: flow, hierarchy, comparison, timeline, anatomy, decision tree, small multiples + zoom-in callouts — all in [templates/diagram-kit.svg](explain-it-with-pictures/templates/diagram-kit.svg) |
+| **Story structure** | Hook → reveal → mechanism → payoff → takeaway: plain-words hook, the big picture, day-in-the-life flows, data anatomy, the book over time, the cast of files, glossary, elevator |
+| **Motion** | One reveal per diagram, on scroll, in story order: zones settle → boxes fade → arrows draw → bubbles pop → insets last. All under 1.2s, spring-eased |
+| **Accessibility** | Reduced-motion gets the static page; JS dies → content stays visible; every diagram titled; print forces final states |
+| **Color** | Ground / ink / muted / accent roles + five semantic diagram colors — every text pair WCAG-checked (44 pairs in CI) |
 
 ## What you get
 
@@ -32,24 +34,16 @@ Ask your agent:
 
 > "Explain how my project works — illustrate it. I built this with AI and don't really understand it."
 
-You'll get `docs/how-it-works.html` in your project, containing:
+You'll get `docs/how-it-works.html` in your project, containing the full story: the big picture, an animated day-in-the-life for every user action (with a zoom-in on the actual messages that travel), your data opened up field by field, your data's states over time, the cast of files as a hierarchy, the glossary, and a three-sentence summary to repeat to a friend.
 
-1. A one-paragraph, zero-jargon summary
-2. **The big picture** — every part and how they connect
-3. **What happens when you…** — an animated day-in-the-life per user action, including a zoom-in on the actual messages that travel
-4. Your data opened up and labeled, field by field
-5. **The cast of characters** — every file in one human sentence, including what happens if you delete it
-6. **Words you'll hear** — the glossary
-7. **How to explain it to a friend** — a three-sentence summary to memorize
-
-See it for real — the skill was run end-to-end against a small working app:
+The skill was run end-to-end against a small real app — see every diagram type in one place in [assets/diagram-kit.png](assets/diagram-kit.png), then:
 
 - **The app:** [`examples/recipe-saver/`](examples/recipe-saver/) — a real recipe saver with a server, a page, and a data file
 - **The result:** [`examples/recipe-saver-explainer.html`](examples/recipe-saver-explainer.html) — open it in a browser and scroll
-- **What the app looks like:** `assets/app-ui.png` · **Full page:** [`assets/explainer-full.png`](assets/explainer-full.png) · **Print:** [`assets/recipe-saver-explainer.pdf`](assets/recipe-saver-explainer.pdf)
+- **More diagrams:** [save flow with message inset](assets/example-save-flow.png) · [small multiples](assets/example-small-multiples.png) · [file hierarchy](assets/example-hierarchy.png) · [full page](assets/explainer-full.png) · [print](assets/recipe-saver-explainer.pdf)
 
 ![The save-recipe story diagram, with the message zoom-in inset](assets/example-save-flow.png)
-*The save flow — including a violet zoom-in inset showing the actual JSON message that travels from page to server.*
+*The save flow — including a zoom-in inset showing the actual JSON message that travels from page to server.*
 
 ## Install
 
@@ -76,19 +70,17 @@ The skill fires on questions like *"how does my app work?"*, *"make me a diagram
 
 ## What the skill teaches your agent
 
-- **One question per diagram** — a second question earns a second diagram.
-- **Dual-label every box** — "The kitchen — your server" over `server.js`: the reader learns the map and the territory together.
-- **Number the story** — ①②③ bubbles on the flow path, with a caption that walks the numbers.
-- **Label every arrow** — "your recipe, as a message", "if something is missing: a friendly error".
-- **Five colors, one meaning each** — same meanings in every diagram; legends on every flow.
-- **Mark user touchpoints** — a cursor glyph wherever a human clicks or types.
-- **Zoom-in callouts** — dashed ring, dashed line, enlarged detail: "here's what the message actually looks like".
-- **Sustain one analogy** — if the server is a kitchen, it stays a kitchen for the whole document.
-- **Simplify honestly** — "(simplified)" markers where steps were collapsed.
+- **One question per diagram**, answered by the right **type** — flow for actions, hierarchy for structure, anatomy for internals, small multiples for states, comparison for change, timeline for time, decision tree for branching.
+- **Geometry safety, mechanically enforced** — boxes sized to their text, 24px gaps, labels in gutters, no text ever touching text.
+- **Dual-label every box** — "The kitchen — server" over `server.js`.
+- **Number the story** — bubbles on the flow path, caption walks the numbers.
+- **Five semantic colors**, legends on every flow, same meanings everywhere.
+- **Zoom-in callouts** — "here's what the message actually looks like".
+- **One sustained analogy** — if the server is a kitchen, it stays a kitchen.
+- **Honest simplification** — "(simplified)" markers where steps were collapsed.
 - **Move with restraint** — story-ordered reveals, reduced-motion-safe, print-safe.
-- **Scale by zooming, never crowding** — big codebases get subsystem boxes in the big picture and a diagram each.
 
-## Verify / stress test
+## Stress test it
 
 ```bash
 ./scripts/verify.sh
@@ -96,12 +88,11 @@ The skill fires on questions like *"how does my app work?"*, *"make me a diagram
 
 Runs the whole loop on any machine with `node` + `python3` + `curl` (render/PDF checks need Chrome, skipped-and-declared otherwise):
 
-- SVG geometry check — no colliding or clipped labels, on template *and* example
-- Explainer validation — balanced HTML, zero loaded external resources, valid diagrams, embedded fonts decode, motion/print/JS-gating present, every diagram titled
-- **WCAG 2.1 contrast audit** — 41 design-system color pairs, all ≥ 4.5:1 (text) / 3:1 (graphics)
-- Live smoke test of the example app — endpoints, validation errors, path-traversal blocked
-- **Live render test** — headless Chrome confirms the reveal script actually runs, and the page prints to a real 7-page PDF
-- Fixture integrity — tests never dirty the demo data
+- **Geometry gate** — text-in-box padding, 24px box gaps, label placement, glyph coverage — on the kit and every example diagram
+- **Explainer validation** — balanced HTML, zero loaded external resources, valid diagrams, embedded fonts decode, motion/print/JS-gating present, every diagram titled
+- **WCAG 2.1 contrast audit** — 44 design-system color pairs
+- **Live smoke test** — endpoints, validation errors, path-traversal blocked
+- **Live render test** — headless Chrome confirms the reveal script runs, and the page prints to a real 9-page PDF
 
 ## License
 

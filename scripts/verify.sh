@@ -31,8 +31,15 @@ step "4. Demo app smoke test (isolated data file)"
 cp "$REPO/examples/recipe-saver/recipes.json" "$TMP/recipes.json"
 PORT=$PORT DATA_FILE="$TMP/recipes.json" node "$REPO/examples/recipe-saver/server.js" &
 SERVER_PID=$!
-sleep 1
 base="http://localhost:$PORT"
+READY=""
+for _ in $(seq 1 50); do
+  if [ "$(curl -s -o /dev/null -w '%{http_code}' "$base/api/recipes" 2>/dev/null)" = "200" ]; then READY=1; break; fi
+  sleep 0.1
+done
+if [ -z "$READY" ]; then
+  fail "server never became ready on port $PORT"
+fi
 check() {
   local name="$1" expect="$2" got="$3"
   if [ "$got" = "$expect" ]; then

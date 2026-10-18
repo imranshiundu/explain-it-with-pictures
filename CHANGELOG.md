@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.2.0 — 2026-10-18
+
+The "agents can't draw" release: geometry enforcement, diagram variety, storytelling.
+
+- **Geometry safety, enforced**: rewritten `check-svg.py` — text-in-box padding (14px sides / 8px vertical), 24px box-to-box clearance with nesting awareness, floating-label placement, glyph coverage against the embedded-font subset. Caught and fixed real overlaps in the previous templates on first run.
+- **Diagram-type library** (8 types with use-cases): flow, hierarchy, comparison, timeline, anatomy, decision tree, small multiples, zoom callout — shipped as `templates/diagram-kit.svg`, the new reference kit with a live conventions strip (type scale, spacing ruler, color roles).
+- **Story structure**: hook → reveal → mechanism → payoff → takeaway; document outline now includes small multiples ("the book over time") and a file **hierarchy** diagram replacing the ASCII tree.
+- **Design system rebuilt** on the house rules: ground/surface/ink/muted/accent roles (warm off-white ground, flat surfaces, no gradients, no shadows, no thin rules, square corners), 5-size type scale with clamps, spacing scale (4–64px + 140px section rhythm), tight margins, no eyebrows, no index numbering.
+- **Example explainer rebuilt**: 6 diagrams (big picture, save flow + message inset, search flow, anatomy, small multiples, hierarchy), story-ordered, all geometry CLEAN under the new checker.
+- **Contrast suite grown to 44 pairs** (rose-tint error cards, hierarchy grays).
+- **Harness hardened**: server readiness wait (kills a start-up race that flaked the smoke test), kit screenshot + 3 new example screenshots, 9-page PDF.
+
 ## 1.1.0 — 2026-10-12
 
 Design-language release: Apple-grade polish, motion, and a hardened test loop.
