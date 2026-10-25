@@ -4,29 +4,33 @@ An open-source skill for AI coding agents (Claude Code, opencode, Cursor, Codex�
 
 Built for **vibe coders** — people who build working software by prompting AI and end up owning something they can't explain. Ask your agent *"explain how my project works"* and instead of a wall of jargon you get a single illustrated HTML document: hand-drawn diagrams that animate their story step by step, labeled arrows, plain-words captions, an annotated file hierarchy, and a glossary.
 
-![The big-picture diagram from the example explainer](assets/example-big-picture.png)
-*A diagram the skill produced for a small real app: labeled zones, dual-labeled boxes (plain words + real filename), numbered story bubbles, labeled arrows, a legend — every gap and label mechanically checked.*
+![The rendered first screen of the example explainer](assets/explainer-hero.png)
+*The real rendered fold: split hero with a live fragment of the product on the right, the masked headline bottom-left, Clash Grotesk on a sand ground.*
 
-## Free and simple, on purpose
+## Design language
 
-- **Hand-drawn, not AI-generated.** The agent draws SVG diagrams itself. Text stays crisp, edits are one-line changes, files stay tiny — and it never calls an image-generation API.
-- **One self-contained file.** No dependencies, no CDNs, no build step. Fonts are embedded as base64 (SIL OFL), so it opens offline with its typography intact and prints to a clean PDF. Try it: [recipe-saver-explainer.pdf](assets/recipe-saver-explainer.pdf) (9 pages, straight from Print).
-- **Zero paid services.** No accounts, no network calls, no API keys.
-- **Readable by someone who has never coded.** Every technical word defined at first use and gathered into a glossary; every diagram ends with an "In plain words:" analogy caption.
-
-## What's in the design system
-
-The skill ships more than rules — it ships *enforcement*:
+The skill was rebuilt through a measured design process (dealt direction → build → lint → real-browser inspection at 1440/768/390px), not by eye:
 
 | Layer | What it does |
 |---|---|
-| **Type scale** | Five sizes, far apart: Fraunces (display) for titles, Inter for body, JetBrains Mono for real names — embedded, subset, offline |
-| **Geometry safety** | Box width = text + 2×14px padding; 8px text-to-edge clearance; 24px box-to-box gaps; labels in gutters; arrows at box edges. Enforced by `scripts/check-svg.py` — overlapping text is a build failure, not a hope |
-| **Diagram library** | Seven types, chosen by the question they answer: flow, hierarchy, comparison, timeline, anatomy, decision tree, small multiples + zoom-in callouts — all in [templates/diagram-kit.svg](explain-it-with-pictures/templates/diagram-kit.svg) |
-| **Story structure** | Hook → reveal → mechanism → payoff → takeaway: plain-words hook, the big picture, day-in-the-life flows, data anatomy, the book over time, the cast of files, glossary, elevator |
-| **Motion** | One reveal per diagram, on scroll, in story order: zones settle → boxes fade → arrows draw → bubbles pop → insets last. All under 1.2s, spring-eased |
-| **Accessibility** | Reduced-motion gets the static page; JS dies → content stays visible; every diagram titled; print forces final states |
-| **Color** | Ground / ink / muted / accent roles + five semantic diagram colors — every text pair WCAG-checked (44 pairs in CI) |
+| **Direction** | The quiet instrument: radical understatement — the headline is barely larger than the body, diagrams run full width, and the restraint is the claim |
+| **Typography** | Clash Grotesk, one family, two weights, embedded as subset base64 (the file stays one offline file) |
+| **Hero** | Split in two halves by tone: a real fragment of the product built in HTML (`data-ui`, real labels) on the right — the page's focal point — and the words anchored bottom-left |
+| **Motion** | One signature (the masked headline, line by line), then quiet section entrances — a measured floor of 8+ moving elements (the example renders 29) |
+| **Pictures** | For software, the product's own interface fragments count as pictures; two photographs of the subject's world carry the analogy, credited on the page |
+| **Accessibility** | Body text in the full ink (9.3:1), story captions at body size, reduced-motion gets the static page, JS dies → everything visible, print forces final states |
+
+## Gates (all must be green)
+
+```bash
+./scripts/verify.sh        # geometry, contrast, offline, app smoke, live render, PDF
+```
+
+- **Geometry gate** — text-in-box padding, 24px box gaps, label placement, glyph coverage — on every template and diagram
+- **Contract audit** — 42 WCAG pairs for the palette
+- **Lint** — zero banned patterns: no gradients, no shadows at rest, no thin rules, no monospace labels, no eyebrows, no index numbers
+- **Real-browser inspection** (with the [design-taste-frontend](https://github.com/) skill installed) — headline line counts, type sizes actually rendered, screen fill, motion count, covered text: **0 FAIL** at desktop, tablet and phone
+- **Print test** — the example renders to a real 10-page PDF, single file, fully offline (246KB with fonts and photographs embedded)
 
 ## What you get
 
@@ -40,10 +44,14 @@ The skill was run end-to-end against a small real app — see every diagram type
 
 - **The app:** [`examples/recipe-saver/`](examples/recipe-saver/) — a real recipe saver with a server, a page, and a data file
 - **The result:** [`examples/recipe-saver-explainer.html`](examples/recipe-saver-explainer.html) — open it in a browser and scroll
-- **More diagrams:** [save flow with message inset](assets/example-save-flow.png) · [small multiples](assets/example-small-multiples.png) · [file hierarchy](assets/example-hierarchy.png) · [full page](assets/explainer-full.png) · [print](assets/recipe-saver-explainer.pdf)
+- **More renders:** [the scrolled pages](assets/explainer-pages.jpg) · [the diagram kit](assets/diagram-kit.png) · [print, 10 pages](assets/recipe-saver-explainer.pdf)
 
-![The save-recipe story diagram, with the message zoom-in inset](assets/example-save-flow.png)
-*The save flow — including a zoom-in inset showing the actual JSON message that travels from page to server.*
+## Free and simple, on purpose
+
+- **Hand-drawn, not AI-generated.** The agent draws SVG diagrams itself — and the measured gates keep them legible.
+- **One self-contained file.** No dependencies, no CDNs, no build step. Fonts and photographs are embedded as base64, so it opens offline with its typography intact and prints to a clean PDF.
+- **Zero paid services.** No accounts, no network calls, no API keys.
+- **Readable by someone who has never coded.** Every technical word defined at first use and gathered into a glossary; every diagram ends with an "In plain words:" analogy caption.
 
 ## Install
 

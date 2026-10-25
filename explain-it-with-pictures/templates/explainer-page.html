@@ -6,256 +6,255 @@
 <title>PROJECT NAME — How It Works</title>
 <script>document.documentElement.classList.add('js')</script>
 <style>
+/* Paste templates/fonts.css here — embedded Clash Grotesk (one family, two weights);
+   the page stays a single offline file. ⤵ */
 /*__FONTS__*/
-/* Paste templates/fonts.css here — embedded OFL fonts, keeps the file one offline file */
 
 /* ==========================================================================
-   Explain It With Pictures — document skeleton
-   Slots marked ⤵ must be filled: hero statement, sections, figures, glossary.
-   Everything else is the locked design system: type scale, spacing scale,
-   color roles, layout, motion. Keep it; change only the story.
+   Explain It With Pictures — document skeleton (quiet instrument).
+   Slots marked ⤵ must be filled: hero fragment, sections, figures, glossary.
+   Everything else is the locked system: tokens, hero split, motion, print.
+   The design lives in measurements, not decoration: one family, five sizes,
+   narrow text measure, full-width figures, one accent, one closing field.
    ========================================================================== */
 
 :root {
-  /* Color roles — one ground, one ink, one muted, one accent */
-  --bg: #F2F0E9;
-  --surface: #FFFFFF;
-  --ink: #111827;
-  --muted: #4B5563;
-  --accent: #1D4ED8;
-  --accent-ink: #FFFFFF;
-  /* Diagram semantics (inside figures only — never the document accent) */
-  --front: #3B82F6;  --front-tint: #DBEAFE;
-  --server: #15803D; --server-tint: #DCFCE7;
-  --data: #B45309;   --data-tint: #FEF3C7;
-  --error: #BE123C;
-  /* Type scale — five sizes, far apart */
-  --step-display: clamp(3rem, 1rem + 9vw, 9rem);
-  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
-  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
-  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
-  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
-  /* Layout */
-  --margin: clamp(1rem, 2.2vw, 2rem);   /* 16–32px, tight */
-  --gutter: clamp(0.75rem, 1.4vw, 1.5rem);
-  /* Spacing scale — base 4px, every gap a step */
-  --space-xs: 4px;  --space-sm: 8px;  --space-md: 16px;  --space-lg: 24px;
-  --space-xl: 32px; --space-2xl: 48px; --space-3xl: 64px;
-  /* Section gap — clearly larger than any gap inside a section */
-  --space-section: 140px;
-  /* Motion */
-  --ease-out: cubic-bezier(.22,1,.36,1);
-  --spring: cubic-bezier(.34,1.56,.64,1);
+  /* Colour roles: ground, surface, ink, muted, accent. Accent marks the action only. */
+  --bg: #ddd6c6;
+  --surface: #ffffff;
+  --ink: #2a2a26;
+  --muted: #59574e;
+  --accent: #4f6238;
+  --accent-ink: #ffffff;
+  --field: #3f5a2a;          /* the one closing field */
+  --field-ink: #ffffff;
+  /* Type scale: five sizes, far apart. h1 barely larger than body, on purpose. */
+  --step-h1: clamp(26px, 2.1vw, 32px);
+  --step-h2: clamp(22px, 1.5vw, 28px);
+  --step-body: clamp(17px, 1rem + 0.25vw, 19px);
+  --step-small: clamp(13px, 0.79rem + 0.1vw, 14px);
+  /* Layout: tight margins; measure on text, never on the page; large things full width. */
+  --margin: clamp(1rem, 2.2vw, 2rem);
+  --measure: 34rem;
+  --section: clamp(6rem, 14vw, 9rem);
+  /* Motion tokens */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
+  --t-reveal: 800ms;
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; color-scheme: light; }
-body { font: var(--step-body)/1.5 var(--font-body); margin: 0; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
-::selection { background: #DDD6FE; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Clash Grotesk', system-ui, sans-serif; font-size: var(--step-body); line-height: 1.5; font-kerning: normal; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+h1, h2, h3, p, figure, dl, dd { margin: 0; }
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+a { color: inherit; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-/* Plain bar — wordmark, a few links, one action. No blur, no hairline. */
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); }
-.topbar-inner { padding-inline: var(--margin); padding-block: 14px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.wordmark { font: 600 15px/1.2 var(--font-display); color: var(--ink); letter-spacing: -.01em; }
-.print-btn { font: 600 13px var(--font-body); color: var(--accent-ink); background: var(--accent); border: 0; border-radius: 0; padding: 7px 14px; cursor: pointer; transition: transform .15s var(--ease-out); }
-.print-btn:hover { filter: brightness(1.1); }
-.print-btn:active { transform: scale(.96); }
-#progress { position: absolute; left: 0; bottom: 0; width: 100%; height: 4px; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); }
+main { padding: 0 var(--margin) 6rem; }
 
-main { padding-inline: var(--margin); padding-bottom: 120px; }
-.sheet { background: var(--surface); padding: clamp(32px, 6vw, 72px) var(--margin); }
-
-header.hero { margin-bottom: var(--space-section); }
-h1 { font: 600 var(--step-display)/0.95 var(--font-display); letter-spacing: -0.035em; color: var(--ink); margin: 0 0 18px; font-optical-sizing: auto; text-wrap: balance; }
-h1 + p { font: var(--step-lead)/1.35 var(--font-body); color: var(--ink); max-width: 50ch; margin: 0; }
-
-section { margin-top: var(--space-section); }
-h2 { font: 600 var(--step-head)/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--ink); margin: 0 0 var(--space-md) 0; font-optical-sizing: auto; }
-h2 + p { margin-top: 0; }
-p { max-width: 68ch; margin: 0 0 var(--space-md) 0; }
-p + p { margin-top: 0.9em; }
-strong { font-weight: 650; }
-
-/* Figures: surface panels separated from ground by tone only — no line, no shadow, no radius */
-figure { margin: 0 0 var(--space-md) 0; background: var(--surface); padding: clamp(16px, 3vw, 28px); }
-figure svg { width: 100%; height: auto; display: block; }
-figure svg text { font-family: var(--font-body); }
-figure svg .box-sub, figure svg .mono { font-family: var(--font-mono); }
-figcaption { color: var(--muted); font-size: var(--step-small); line-height: 1.8; margin-top: var(--space-sm); padding-top: var(--space-sm); border-top: 0; } /* no thin rules — caption separated by space and tone */
-figcaption strong { color: var(--ink); }
-.step-n { display: inline-flex; align-items: center; justify-content: center; width: 1.5em; height: 1.5em; border-radius: 50%; background: var(--ink); color: #fff; font: 700 .72em/1 var(--font-body); vertical-align: -.2em; margin-right: .15em; }
-
-pre.tree { background: var(--surface); padding: var(--space-xl); overflow-x: auto; font: 400 13.5px/2 var(--font-mono); color: var(--ink); }
-pre.tree .file { font-weight: 700; }
-pre.tree .role { color: var(--muted); }
-
-dl.glossary { margin: var(--space-md) 0 0; }
-dl.glossary > div { padding-block: var(--space-md); background: var(--surface); }
-dl.glossary dt { font: 650 .95rem var(--font-body); color: var(--ink); }
-dl.glossary dd { margin: var(--space-xs) 0 0; color: var(--muted); font-size: var(--step-small); }
-
-.elevator { margin-top: var(--space-md); padding: var(--space-xl); background: var(--surface); font: 500 1.15rem/1.75 var(--font-display); color: var(--ink); font-style: italic; }
-
-footer.doc { margin-top: var(--space-section); padding-top: var(--space-xl); text-align: center; font-size: var(--step-small); color: var(--muted); }
-footer.doc a { color: var(--accent); text-decoration: none; }
-
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 0; }
-
-/* ==========================================================================
-   Motion — reveal once on scroll, in story order, under 1.2s.
-   Reduced motion and print get the fully rendered static page.
-   ========================================================================== */
-@media (prefers-reduced-motion: no-preference) {
-  html.js .u-fade { opacity: 0; }
-  html.js .in-view.u-fade { animation: fadeUp .8s var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 75ms); }
-
-  html.js figure[data-animate] .zone,
-  html.js figure[data-animate] .zlabel { opacity: 0; }
-  html.js figure.in-view .zone,
-  html.js figure.in-view .zlabel { animation: settle 1s var(--ease-out) forwards; }
-
-  html.js figure[data-animate] .box { opacity: 0; }
-  html.js figure.in-view .box { animation: popIn .75s var(--spring) forwards; animation-delay: calc(var(--seq, 0) * 110ms + 150ms); }
-
-  html.js figure[data-animate] .lbl { opacity: 0; }
-  html.js figure.in-view .lbl { animation: fadeUp-sm .6s var(--ease-out) forwards; animation-delay: calc(var(--seq, 0) * 110ms + 380ms); }
-
-  html.js figure[data-animate] .edge { stroke-dasharray: 1; stroke-dashoffset: 1; }
-  html.js figure.in-view .edge { transition: stroke-dashoffset .85s var(--ease-out); transition-delay: calc(var(--seq, 0) * 110ms + 300ms); stroke-dashoffset: 0; }
-
-  html.js figure[data-animate] .head { opacity: 0; transform: scale(.3); transform-box: fill-box; transform-origin: center; }
-  html.js figure.in-view .head { animation: popIn .4s var(--spring) forwards; animation-delay: calc(var(--seq, 0) * 110ms + 1150ms); }
-
-  html.js figure[data-animate] .bubble { opacity: 0; transform: scale(.3); transform-box: fill-box; transform-origin: center; }
-  html.js figure.in-view .bubble { animation: popIn .55s var(--spring) forwards; animation-delay: calc(var(--seq, 0) * 110ms + 250ms); }
-
-  html.js figure[data-animate] .inset-item { opacity: 0; transform: scale(.92); transform-box: fill-box; transform-origin: center; }
-  html.js figure.in-view .inset-item { animation: popIn .8s var(--spring) forwards; animation-delay: calc(var(--seq, 0) * 100ms + 1.25s); }
+/* Hero: split in two halves by tone. Left holds the words, bottom-anchored.
+   Right holds one fragment of the product at real size — the page's focal point. */
+header.hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 88svh; }
+.hero-text { background: var(--bg); display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem 2rem 3.5rem; }
+.hero-text h1 { font-size: var(--step-h1); line-height: 1.05; letter-spacing: -0.02em; font-weight: 500; text-wrap: balance; max-width: 22ch; margin-bottom: 1rem; }
+.hero-text p { font-size: 17px; color: var(--muted); max-width: 44ch; margin-bottom: 1.75rem; }
+.hero-frag { background: #e4ddcd; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+@media (max-width: 760px) {
+  header.hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-frag { padding: 1.5rem 1rem 0; order: -1; }
+  .hero-text { padding: 2rem 0 3rem; }
+  .hero-text p { font-size: 16px; }
 }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(26px); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
-@keyframes fadeUp-sm { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-@keyframes settle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-@keyframes popIn { from { opacity: 0; } 60% { opacity: 1; } to { opacity: 1; transform: none; } }
+
+/* Interface fragments: believable HTML at real size, real labels, data-ui root. */
+[data-ui].frag { width: min(460px, 100%); background: var(--surface); padding: 1.5rem; font-size: 14px; line-height: 1.5; }
+[data-ui].frag label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 0.25rem; }
+[data-ui].frag input, [data-ui].frag textarea { display: block; width: 100%; padding: 0.5rem 0.65rem; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; color: var(--ink); background: var(--surface); margin-bottom: 0.85rem; }
+[data-ui].frag .primary { background: #15803d; color: #ffffff; padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 500; font-size: 14px; }
+
+.button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.25rem; background: var(--accent); color: var(--accent-ink); font-size: 15px; font-weight: 500; border-radius: 0; text-decoration: none; white-space: nowrap; transition: transform var(--t-press) var(--ease-out); }
+.button:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) { .button:hover { background: #3f5230; } }
+
+/* Sections: measure on the text, never on the page. Figures run full width. */
+section { margin-top: var(--section); }
+section > h2 { max-width: var(--measure); font-size: var(--step-h2); line-height: 1.1; letter-spacing: -0.01em; font-weight: 500; text-wrap: balance; margin-bottom: 0.75rem; }
+section > p { margin-bottom: 1.75rem; max-width: 62ch; text-wrap: pretty; }
+strong { font-weight: 500; }
+
+figure { background: var(--surface); padding: clamp(16px, 3vw, 28px); }
+figure svg { width: 100%; height: auto; }
+figcaption { font-size: var(--step-body); line-height: 1.6; color: var(--ink); margin-top: 1rem; max-width: 62ch; }
+figcaption strong { color: var(--ink); font-weight: 500; }
+.step-n { display: inline-flex; align-items: center; justify-content: center; width: 1.45em; height: 1.45em; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 13px; font-weight: 500; vertical-align: -0.18em; margin-right: 0.12em; }
+
+/* Photographs of the subject's world: column width, each doing one job. */
+.photo { width: 100%; max-width: var(--measure); height: auto; margin-top: 1.75rem; }
+
+/* Small multiples as real interface fragments: two columns on desktop (each
+   fragment must reach ≥300×200px to count as a picture), one column on phones. */
+.states { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1.75rem; }
+.states [data-ui] { min-height: 220px; }
+.states-caption { font-size: var(--step-body); line-height: 1.6; color: var(--ink); margin-top: 1.25rem; max-width: 62ch; }
+.states-caption strong { font-weight: 500; }
+@media (max-width: 700px) { .states { grid-template-columns: 1fr; } }
+
+dl { margin-top: 0.5rem; max-width: var(--measure); }
+dl > div { padding-block: 0.9rem; }
+dt { font-weight: 500; }
+dd { color: var(--muted); font-size: var(--step-body); line-height: 1.6; margin-top: 0.15rem; max-width: 62ch; }
+
+/* The close: one colour field, the takeaway in its own ink. */
+.field { margin: var(--section) calc(var(--margin) * -1) 0; background: var(--field); color: var(--field-ink); padding: 5.5rem var(--margin); }
+.field h2 { color: var(--field-ink); font-size: var(--step-h2); font-weight: 500; margin-bottom: 0.75rem; }
+.field .pitch { font-size: clamp(18px, 1.1rem + 0.5vw, 21px); line-height: 1.6; max-width: 46ch; color: var(--field-ink); }
+
+footer { margin-top: var(--section); font-size: var(--step-small); color: var(--muted); }
+footer p { margin-bottom: 0.4rem; max-width: 62ch; }
+footer a { color: var(--ink); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 0.07em; }
+
+/* Motion: masked headline is the signature; entrances are staggered per section.
+   Everything is gated so no-JS, reduced-motion and print all show the full page. */
+.lines .line { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.lines [data-line] { display: block; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .lines [data-line] { transform: translateY(105%); animation: line-up 900ms var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 110ms + 150ms); }
+  .js [data-rise] { opacity: 0; transform: translateY(18px); animation: rise var(--t-reveal) var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 90ms + 120ms); }
+  .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out); }
+  .js [data-reveal].is-in { opacity: 1; transform: none; }
+}
+@keyframes line-up { to { transform: none; } }
+@keyframes rise { to { opacity: 1; transform: none; } }
 
 @media print {
-  html.js .u-fade, html.js figure .box, html.js figure .bubble, html.js figure .head,
-  html.js figure .lbl, html.js figure .zone, html.js figure .zlabel, html.js figure .edge,
-  html.js figure .inset-item { opacity: 1 !important; transform: none !important; filter: none !important; stroke-dashoffset: 0 !important; stroke-dasharray: none !important; }
-  body { background: #fff; font-size: 12pt; }
-  .topbar { display: none; }
+  html.js [data-reveal], html.js [data-rise], html.js .lines [data-line] { opacity: 1 !important; transform: none !important; animation: none !important; }
+  body { background: #fff; color: #111; font-size: 12pt; }
   main { padding: 0; }
-  .sheet { padding: 0; }
-  section { margin-top: var(--space-section); }
+  header.hero { min-height: auto; }
+  .hero-frag { padding: 1rem; }
+  section { margin-top: 3rem; }
+  figure { page-break-inside: avoid; background: #fff; }
+  .field { background: #3f5a2a; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   h2 { page-break-after: avoid; }
-  figure { page-break-inside: avoid; }
 }
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="wordmark">PROJECT NAME — how it works</div>
-    <button class="print-btn" type="button" onclick="window.print()">Print / Save as PDF</button>
-    <div id="progress" role="presentation"></div>
-  </div>
-</div>
 <main>
-  <article class="sheet">
-    <header class="hero u-fade" data-animate>
-      <h1>PROJECT NAME — how it works</h1>
-      <p class="u-fade" style="--i:1"><span class="tag">In plain words</span><br>
-      One paragraph anyone can follow. Zero jargon. If a technical word must appear, define it right here in parentheses.</p>
-    </header>
 
-    <section data-animate>
-      <h2>The big picture</h2>
-      <p class="u-fade" style="--i:1">One diagram showing every part and how they connect.</p>
-      <figure data-animate>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-label="The big picture">
-          <title>The big picture</title>
-          <!-- Copy templates/diagram-kit.svg conventions: zone / zlabel / box / box-title /
-               box-sub / box-note / bubble / num / edge (pathLength="1") / head / lbl classes. -->
-        </svg>
-        <figcaption><strong>In plain words:</strong> Walk the numbered bubbles in prose; close with one analogy sentence used consistently through the document.</figcaption>
-      </figure>
+  <header class="hero">
+    <div class="hero-frag" aria-label="A fragment of the product, at real size">
+      <!-- ⤵ Build a believable fragment of the product in HTML at real size:
+           real labels, real content, one item focused. data-ui marks it as the
+           product's own interface. The fragment is the page's focal point. -->
+      <div data-ui class="frag">
+        <label for="frag-demo">Real field label</label>
+        <input id="frag-demo" value="Real content" readonly>
+        <button class="primary" type="button">Real action</button>
+      </div>
+    </div>
+    <div class="hero-text">
+      <h1 class="lines">
+        <span class="line"><span data-line style="--i:0">PROJECT NAME,</span></span>
+        <span class="line"><span data-line style="--i:1">how it works</span></span>
+      </h1>
+      <p data-rise style="--i:2">One sentence, at most about 22 words, that says concretely what the thing is and who it is for. Softer ink, held to 44 characters.</p>
+      <p data-rise style="--i:3"><button class="button" type="button" onclick="window.print()">Print this page</button></p>
+    </div>
+  </header>
+
+  <section>
+    <h2 data-reveal>The big picture</h2>
+    <p data-reveal>One or two sentences of setup, in the reader's language. Then the diagram: every part and how they connect.</p>
+    <!-- ⤵ Diagrams follow templates/annotated-diagram.svg conventions:
+         zone / zlabel / box / box-title / box-sub / box-note / bubble / edge / lbl
+         classes, story numbers in bubbles, dual-labeled boxes, flat fills only. -->
+    <figure data-reveal>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-label="The big picture">
+        <title>The big picture</title>
+      </svg>
+      <figcaption><strong>In plain words:</strong> walk the numbered bubbles in prose; close with one analogy sentence, used consistently through the whole document.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2 data-reveal>What happens when you…</h2>
+    <p data-reveal>One day-in-the-life flow diagram per user-visible action. If the product is software, one real interface fragment may carry the section instead of a drawing.</p>
+    <figure data-reveal>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-label="What happens when you do the thing">
+        <title>What happens when you do the thing</title>
+      </svg>
+      <figcaption><strong>In plain words:</strong> <span class="step-n">1</span>you do this, <span class="step-n">2</span>then that happens, <span class="step-n">3</span>and this comes back.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2 data-reveal>Where your data lives</h2>
+    <p data-reveal>The anatomy picture: one stored thing opened up, every field labeled in plain words.</p>
+    <figure data-reveal>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-label="Anatomy of one saved record">
+        <title>Anatomy of one saved record</title>
+      </svg>
+      <figcaption><strong>In plain words:</strong> explain each labeled field, then the file as a whole.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2 data-reveal>Over time</h2>
+    <p data-reveal>Small multiples: the same picture in every state. For software, real interface fragments beat drawings — build each state in HTML, data-ui on each root.</p>
+    <!-- ⤵ Interface fragments as small multiples: each ≥300×200px at desktop width,
+         real labels, real content per state. -->
+    <div class="states" data-reveal>
+      <div data-ui class="frag">state one</div>
+      <div data-ui class="frag">state two</div>
+    </div>
+    <p class="states-caption" data-reveal><strong>In plain words:</strong> read left to right and tell what changes.</p>
+  </section>
+
+  <section>
+    <h2 data-reveal>The cast of characters</h2>
+    <p data-reveal>Every file in the project as a hierarchy diagram: one human sentence each, including what happens if it goes missing.</p>
+    <figure data-reveal>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 448" role="img" aria-label="Project file hierarchy">
+        <title>The cast of characters</title>
+      </svg>
+      <figcaption><strong>In plain words:</strong> one sentence per file, including what breaks without it.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2 data-reveal>Words you'll hear</h2>
+    <p data-reveal>Every technical word this document used, in the order they appeared.</p>
+    <dl data-reveal>
+      <div><dt>server</dt><dd>The program that listens for requests and answers them.</dd></div>
+    </dl>
+  </section>
+
+  <div class="field">
+    <section style="margin-top: 0;">
+      <h2 data-reveal>How to explain it to a friend</h2>
+      <p class="pitch" data-reveal>Three sentences the reader can memorize and repeat.</p>
     </section>
+  </div>
 
-    <section data-animate>
-      <h2>What happens when you…</h2>
-      <p class="u-fade" style="--i:1">One day-in-the-life flow diagram per user-visible action.</p>
-      <figure data-animate>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-label="What happens when you do the thing">
-          <title>What happens when you do the thing</title>
-        </svg>
-        <figcaption><strong>In plain words:</strong> <span class="step-n">1</span>you do this, <span class="step-n">2</span>then that happens, <span class="step-n">3</span>and this comes back.</figcaption>
-      </figure>
-    </section>
+  <footer data-reveal>
+    <p>Explained with <a href="https://github.com/imranshiundu/explain-it-with-pictures">Explain It With Pictures</a>, a free open-source skill for AI coding agents.</p>
+    <p>Photograph credits, if any were used, with their licences.</p>
+  </footer>
 
-    <section data-animate>
-      <h2>Where your data lives</h2>
-      <p class="u-fade" style="--i:1">One thing opened up — every field labeled in plain words.</p>
-      <figure data-animate>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-label="Anatomy of one saved record">
-          <title>Anatomy of one saved record</title>
-        </svg>
-        <figcaption><strong>In plain words:</strong> Explain each labeled field, then the file as a whole.</figcaption>
-      </figure>
-    </section>
-
-    <section data-animate>
-      <h2>The book over time</h2>
-      <p class="u-fade" style="--i:1">Small multiples — the same picture in four states: empty, one, many, error.</p>
-      <figure data-animate>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 340" role="img" aria-label="Small multiples of the saved recipe book in four states">
-          <title>Small multiples — the book in four states</title>
-        </svg>
-        <figcaption><strong>In plain words:</strong> Read left to right: nothing, then one, then many, then what goes wrong.</figcaption>
-      </figure>
-    </section>
-
-    <section data-animate>
-      <h2>The cast of characters</h2>
-      <p class="u-fade" style="--i:1">Every file in one human sentence — what it is, and what happens if it goes missing.</p>
-      <figure data-animate>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-label="Hierarchy of the project files">
-          <title>The cast of characters — project file hierarchy</title>
-        </svg>
-        <figcaption><strong>In plain words:</strong> One sentence per file, including what breaks without it.</figcaption>
-      </figure>
-    </section>
-
-    <section data-animate>
-      <h2>Words you'll hear</h2>
-      <p class="u-fade" style="--i:1">Every technical word this document used, in the order they appeared.</p>
-      <dl class="glossary">
-        <div class="u-fade" style="--i:2"><dt>server</dt><dd>The program that listens for requests and answers them.</dd></div>
-      </dl>
-    </section>
-
-    <section data-animate>
-      <h2>How to explain it to a friend</h2>
-      <p class="elevator u-fade" style="--i:1">Three sentences the reader can memorize and repeat.</p>
-    </section>
-
-    <footer class="doc u-fade" data-animate>
-      Explained with <a href="https://github.com/imranshiundu/explain-it-with-pictures">Explain It With Pictures</a> — a free, open-source skill for AI coding agents.
-    </footer>
-  </article>
 </main>
 <script>
 (() => {
-  const io = new IntersectionObserver(entries => {
-    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
-  }, { threshold: 0.12 });
-  document.querySelectorAll('[data-animate]').forEach(el => io.observe(el));
-  const bar = document.getElementById('progress');
-  const onScroll = () => {
-    const h = document.documentElement;
-    const max = h.scrollHeight - h.clientHeight;
-    bar.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')';
-  };
-  addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.1 });
+  document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+  document.documentElement.setAttribute('data-io', 'armed');
 })();
 </script>
 </body>

@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.3.0 — 2026-10-25
+
+The "use the frontend skills properly" release: the design was rebuilt through a measured process (dealt direction → build → lint → real-browser inspection), not by eye.
+
+- **Direction dealt and adopted: the quiet instrument** — radical understatement. Headline barely larger than body text, diagrams run full width, restraint as the claim.
+- **Typography: Clash Grotesk** (Fontshare, one family, two weights), subset and embedded as base64 — 26KB. No monospace anywhere; real names in diagrams set in the body face, smaller and softer.
+- **Fixed the actual "text over each other" bug**: a `max-width` on the section container was squashing every diagram to 544px, scaling viewBox-960 labels to ~9px. The measure now lives on paragraphs only; figures run full width — diagram text renders ~23px at desktop.
+- **Hero rebuilt per the dealt blueprint**: split into two tone halves, a real fragment of the product built in HTML (`data-ui`, real labels) on the right — the focal point the first screen was missing.
+- **Story text fixed**: captions and glossary are running text — moved to body size in the full ink (the inspector caught them at 14px grey).
+- **Real pictures**: the four book states became real interface fragments (one `data-ui` fragment per state, ≥300×200px); two photographs of the subject's world (a kitchen and a spice bazaar, CC0 and CC BY-SA, credited) carry the analogy. SVG drawings no longer count alone.
+- **Closing field**: the takeaway pitch sits on the palette's deep leaf-green band, its own ink.
+- **Motion per the dealt signature**: masked headline (two authored lines rising from behind their baselines) plus quiet section entrances — a measured floor of 8+ moving elements; the example renders 29.
+- **Gates added to the harness**: zero banned patterns in lint (no gradients, shadows at rest, thin rules, tracked caps, monospace labels, index numbers); real-browser inspection at 1440/768/390 — 0 FAIL (headline line counts, body size 19px, contrast 9.3:1, every screen ≥26% filled, no covered text, no empty screens).
+- **Contract audits updated**: 42 WCAG pairs for the new palette; verify-explainer now checks fragments, photographs (width/height/alt/lazy), fonts decode, and `data-io` arming; verify.sh prints a 10-page PDF.
+- **Templates synced**: fonts.css → Clash Grotesk; annotated-diagram.svg and diagram-kit.svg restyled flat (no gradients, no drop-shadow filters, no monospace, sentence-case zone labels); explainer-page.html rewritten as the quiet-instrument skeleton with slots.
+
 ## 1.2.0 — 2026-10-18
 
 The "agents can't draw" release: geometry enforcement, diagram variety, storytelling.

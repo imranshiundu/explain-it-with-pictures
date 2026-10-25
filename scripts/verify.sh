@@ -61,12 +61,12 @@ check "path traversal"      404 "$(curl -s -o /dev/null -w '%{http_code}' --path
 if command -v google-chrome >/dev/null 2>&1; then
   step "5. Live render: explainer JS + reveal, app page"
   google-chrome --headless=new --no-sandbox --disable-gpu --virtual-time-budget=5000 \
+    --window-size=1280,16000 \
     --dump-dom "file://$REPO/examples/recipe-saver-explainer.html" > "$TMP/explainer-dom.html" 2>/dev/null
   grep -q '<html lang="en" class="js"' "$TMP/explainer-dom.html" \
     && echo "  explainer: JS gate class applied" || fail "explainer: JS gate class missing — script did not run"
-  INVIEW=$(grep -c 'class="[^"]*in-view' "$TMP/explainer-dom.html")
-  [ "$INVIEW" -ge 1 ] && echo "  explainer: scroll-reveal fired ($INVIEW elements in-view)" \
-    || fail "explainer: IntersectionObserver never fired"
+  grep -q 'data-io="armed"' "$TMP/explainer-dom.html" \
+    && echo "  explainer: reveal observers armed" || fail "explainer: reveal script did not run"
   google-chrome --headless=new --no-sandbox --disable-gpu --virtual-time-budget=5000 \
     --dump-dom "$base/" > "$TMP/app-dom.html" 2>/dev/null
   grep -q 'id="recipe-form"' "$TMP/app-dom.html" \

@@ -2,12 +2,15 @@
 """Verify an explainer HTML deliverable.
 
 Checks:
-  1. HTML tag balance; zero external references (must open offline).
+  1. HTML tag balance; zero external resources loaded (must open offline).
   2. No duplicate ids (SVG marker/id collisions across diagrams).
   3. Every inline SVG well-formed and geometrically clean (check-svg.py).
-  4. Design system: embedded fonts decode, reduced-motion + print media
-     present, JS gated by class so no-JS stays visible, IntersectionObserver
-     present, motion-ready edges (pathLength), every diagram titled (a11y).
+  4. Design system: embedded fonts decode; motion gated behind a
+     prefers-reduced-motion no-preference query and a JS class; print styles
+     force final states; every diagram titled (a11y); at least one real
+     interface fragment (data-ui) and, for software subjects, at least four
+     countable pictures between photographs and fragments; photographs carry
+     width, height, alt and lazy loading.
 
 Usage: verify-explainer.py FILE
 Exit 0 when every check passes, 1 otherwise.
@@ -55,10 +58,16 @@ def check_design(html, findings):
         ("@media print", "print stylesheet exists"),
         ("classList.add('js')", "motion is JS-gated (no-JS keeps content visible)"),
         ("IntersectionObserver", "scroll-reveal observer present"),
-        ('pathLength="1"', "edges are motion-ready (pathLength)"),
+        ("data-ui", "a real interface fragment (software pictures are its own UI)"),
     ]:
         if marker not in html:
             findings.append(f"design system incomplete: missing {description}")
+
+    photographs = re.findall(r"<img\b[^>]*>", html)
+    if photographs and not all(
+            re.search(r'\b(width|height)=', img) and re.search(r'\balt="[^"]+"', img)
+            and re.search(r'\bloading="lazy"', img) for img in photographs):
+        findings.append("photographs must carry width, height, alt and loading=lazy")
 
     svgs = re.findall(r"<svg.*?</svg>", html, re.S)
     untitled = sum(1 for s in svgs if "<title>" not in s)
