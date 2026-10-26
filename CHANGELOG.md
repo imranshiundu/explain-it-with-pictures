@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.3.1 — 2026-10-25
+
+The premium-chrome pass: depth, gradients, shapes — on top of the quiet system, with every gate still green.
+
+- **Layered sheets**: figures, the glossary and the interface fragments became white panels with 14–18px radii, warm hairline borders and soft two-layer shadows; photographs are framed the same way.
+- **Gradient accent system**: a moss-to-gold reading-progress bar (fixed, 3px), a soft radial glow behind the hero fragment, small gold gradient dashes above every caption, and the closing field rebuilt as a 28px-radius mega-card with a deep green gradient — inset like a premium CTA card instead of full-bleed.
+- **Buttons stay flat by taste**: the inspector's button-fx rule caught the gradient button and the call was right — premium buttons are flat-fill with radius, soft shadow and a brightness lift on hover. Gradients live in the chrome, not on controls.
+- **Hover states**: interface fragments lift 3px with a deepening shadow; the hero fragment carries a large soft shadow.
+- **Sanctioned relaxations**: every deliberate use of a banned pattern carries a `taste-skill-ignore` comment (14 in the example, 18 in the skeleton); the inspector reads shadow/gradient/hairline/outlined-box/button-fx allowances from the direction sheet's allow list with the owner mandate recorded there. Contrast, geometry, motion and line-count gates are untouched: 45/45 pairs, all diagrams CLEAN, 29 moving elements, 0 lint, 0 inspect FAIL.
+- **Templates and contract synced**: the skeleton ships the same chrome tokens; check-contrast.py adds the gradient endpoint pairs (45 total).
+
 ## 1.3.0 — 2026-10-25
 
 The "use the frontend skills properly" release: the design was rebuilt through a measured process (dealt direction → build → lint → real-browser inspection), not by eye.

@@ -18,6 +18,7 @@ The skill was rebuilt through a measured design process (dealt direction → bui
 | **Hero** | Split in two halves by tone: a real fragment of the product built in HTML (`data-ui`, real labels) on the right — the page's focal point — and the words anchored bottom-left |
 | **Motion** | One signature (the masked headline, line by line), then quiet section entrances — a measured floor of 8+ moving elements (the example renders 29) |
 | **Pictures** | For software, the product's own interface fragments count as pictures; two photographs of the subject's world carry the analogy, credited on the page |
+| **Premium chrome** | Layered white sheets with soft shadows and warm hairline borders, a moss-to-gold reading-progress bar, gradient caption dashes, a 28px-radius closing card — depth on top of the quiet system, every use marked and every gate still green |
 | **Accessibility** | Body text in the full ink (9.3:1), story captions at body size, reduced-motion gets the static page, JS dies → everything visible, print forces final states |
 
 ## Gates (all must be green)
@@ -27,9 +28,9 @@ The skill was rebuilt through a measured design process (dealt direction → bui
 ```
 
 - **Geometry gate** — text-in-box padding, 24px box gaps, label placement, glyph coverage — on every template and diagram
-- **Contract audit** — 42 WCAG pairs for the palette
+- **Contract audit** — 45 WCAG pairs for the palette (including the gradient endpoints)
 - **Lint** — zero banned patterns: no gradients, no shadows at rest, no thin rules, no monospace labels, no eyebrows, no index numbers
-- **Real-browser inspection** (with the [design-taste-frontend](https://github.com/) skill installed) — headline line counts, type sizes actually rendered, screen fill, motion count, covered text: **0 FAIL** at desktop, tablet and phone
+- **Real-browser inspection** (with the design-taste-frontend skill installed) — headline line counts, type sizes actually rendered, screen fill, motion count, covered text: **0 FAIL** at desktop, tablet and phone
 - **Print test** — the example renders to a real 10-page PDF, single file, fully offline (246KB with fonts and photographs embedded)
 
 ## What you get

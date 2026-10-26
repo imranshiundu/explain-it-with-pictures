@@ -3,7 +3,7 @@ name: explain-it-with-pictures
 description: Explain how a codebase works using hand-drawn annotated diagrams — inline SVG built on a locked type, spacing and color system — plus plain-language captions, for people who don't code. Use when the user asks how their project works, wants a visual or illustrated explanation, architecture or flow diagram, says they built it with AI and don't understand it, wants docs or onboarding for non-developers, or needs to explain their system to a stakeholder, a friend, or themselves.
 license: MIT
 metadata:
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Explain It With Pictures
@@ -63,6 +63,8 @@ Explain like a museum placard: name the thing, say what it does, add one vivid d
 16. **Move with restraint: one signature, then quiet entrances.** The headline rises from behind its own baseline on load (the masked line reveal — two authored lines, the second 110ms after the first). After that, each section's parts — heading, then text, then figure — enter once, on scroll, staggered 60–90ms, rising 16–32px with opacity; nothing is loud after the hero. The page must move at least eight elements over load and one scroll (a measured floor). Motion lives under a `prefers-reduced-motion: no-preference` media query, hidden states only apply under a JS-set class (a frozen page still shows everything), and print forces final states. The skeleton in [explainer-page.html](templates/explainer-page.html) carries the whole system — copy it.
 17. **Pictures: the product's own interface, then the subject's world.** For software subjects, the pictures are believable fragments of the product built in HTML at real size — real labels, real content, one item focused, `data-ui` on the root, each at least 300×200px at desktop width. Small multiples work best as real interface fragments (one per state) rather than drawings. Two photographs of the subject's world, from the open collections, may carry the analogy if they honestly fit (credit them on the page); SVG drawings alone do not count as the page's pictures. The floor is four countable pictures in total.
 
+18. **Premium chrome, measured.** Depth and polish are allowed on top of the quiet system, never instead of it: white sheets with large radii, soft warm shadows and hairline borders; one gradient accent system (progress bar, small caption dashes, the closing field); hover lift on interface fragments; a flat-fill button with radius and shadow (never a gradient button — that is a generated-page tell). Every deliberate use of a banned pattern carries a `taste-skill-ignore` comment, and the inspector's allowances come from the direction sheet's `allow` list with the reason written there. The gates do not move: contrast, geometry, motion, line counts stay green.
+
 ## Plain-language rules
 
 - Box labels max 14 words; full sentences live in captions, never in boxes.
@@ -107,6 +109,7 @@ Never force a second question into a diagram that already answers one — the ty
 - [ ] Type scale holds: five sizes or fewer, sizes clearly different, text left-aligned, measure ≤ 62 chars, story captions at body size in the full ink.
 - [ ] Color: ground / ink / muted / accent roles; accent under 5% and never on headings; every pair passes 4.5:1 — `scripts/check-contrast.py` is green.
 - [ ] Motion: masked headline on load, section entrances on scroll, at least eight elements move, disabled for reduced-motion and print, content fully visible without JS.
+- [ ] Premium chrome, if used, is marked and allowed: every taste-skill-ignore is deliberate, contrast pairs still pass, the inspector is 0 FAIL
 - [ ] Pictures: at least four countable pictures in total — real photographs (with width, height, alt, lazy loading, credited) and interface fragments (`data-ui`, each ≥300×200px); the file opens offline (every font and image is inline) and prints cleanly.
 - [ ] The cast list matches the real file tree; the story list covers every user-visible action.
 - [ ] A person who has never coded could read it top to bottom without asking a single question.

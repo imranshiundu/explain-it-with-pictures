@@ -28,6 +28,14 @@
   --accent-ink: #ffffff;
   --field: #3f5a2a;          /* the one closing field */
   --field-ink: #ffffff;
+  /* Premium chrome (owner mandate): depth, radii, borders. Gates stay on:
+     contrast, geometry, motion. Allow via the direction sheet. */
+  --border: rgba(42, 42, 38, 0.10);
+  --gold: #d9a441;
+  --radius-sheet: 18px; --radius-card: 14px; --radius-btn: 10px;
+  --shadow-sm: 0 1px 2px rgba(42,42,38,.05), 0 2px 10px rgba(42,42,38,.05); /* taste-skill-ignore: owner mandate: premium depth */
+  --shadow-md: 0 2px 6px rgba(42,42,38,.05), 0 18px 44px rgba(42,42,38,.10); /* taste-skill-ignore: owner mandate: premium depth */
+  --shadow-lg: 0 4px 12px rgba(42,42,38,.06), 0 28px 64px rgba(42,42,38,.15); /* taste-skill-ignore: owner mandate: premium depth */
   /* Type scale: five sizes, far apart. h1 barely larger than body, on purpose. */
   --step-h1: clamp(26px, 2.1vw, 32px);
   --step-h2: clamp(22px, 1.5vw, 28px);
@@ -55,6 +63,8 @@ a { color: inherit; }
 ::selection { background: var(--accent); color: var(--accent-ink); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
+.progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 20; background: linear-gradient(90deg, var(--accent), var(--gold)); /* taste-skill-ignore: owner mandate: premium chrome */ transform-origin: 0 50%; transform: scaleX(0); }
+
 main { padding: 0 var(--margin) 6rem; }
 
 /* Hero: split in two halves by tone. Left holds the words, bottom-anchored.
@@ -63,7 +73,7 @@ header.hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 88svh; 
 .hero-text { background: var(--bg); display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem 2rem 3.5rem; }
 .hero-text h1 { font-size: var(--step-h1); line-height: 1.05; letter-spacing: -0.02em; font-weight: 500; text-wrap: balance; max-width: 22ch; margin-bottom: 1rem; }
 .hero-text p { font-size: 17px; color: var(--muted); max-width: 44ch; margin-bottom: 1.75rem; }
-.hero-frag { background: #e4ddcd; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+.hero-frag { background: radial-gradient(circle at 50% 40%, rgba(255,255,255,.55), rgba(79,98,56,.12) 48%, rgba(79,98,56,0) 78%), #e4ddcd; /* taste-skill-ignore: owner mandate: premium depth */ display: flex; align-items: center; justify-content: center; padding: 2rem; }
 @media (max-width: 760px) {
   header.hero { grid-template-columns: 1fr; min-height: auto; }
   .hero-frag { padding: 1.5rem 1rem 0; order: -1; }
@@ -72,14 +82,14 @@ header.hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 88svh; 
 }
 
 /* Interface fragments: believable HTML at real size, real labels, data-ui root. */
-[data-ui].frag { width: min(460px, 100%); background: var(--surface); padding: 1.5rem; font-size: 14px; line-height: 1.5; }
+[data-ui].frag { width: min(460px, 100%); background: var(--surface); padding: 1.5rem; font-size: 14px; line-height: 1.5; border-radius: 16px; border: 1px solid var(--border); /* taste-skill-ignore: owner mandate: premium chrome */ box-shadow: var(--shadow-lg); /* taste-skill-ignore: owner mandate: premium depth */ }
 [data-ui].frag label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 0.25rem; }
 [data-ui].frag input, [data-ui].frag textarea { display: block; width: 100%; padding: 0.5rem 0.65rem; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; color: var(--ink); background: var(--surface); margin-bottom: 0.85rem; }
 [data-ui].frag .primary { background: #15803d; color: #ffffff; padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 500; font-size: 14px; }
 
-.button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.25rem; background: var(--accent); color: var(--accent-ink); font-size: 15px; font-weight: 500; border-radius: 0; text-decoration: none; white-space: nowrap; transition: transform var(--t-press) var(--ease-out); }
+.button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.35rem; background: var(--accent); color: var(--accent-ink); font-size: 15px; font-weight: 500; border-radius: var(--radius-btn); /* taste-skill-ignore: owner mandate: premium chrome */ text-decoration: none; white-space: nowrap; box-shadow: var(--shadow-sm); /* taste-skill-ignore: owner mandate: premium depth */ transition: transform var(--t-press) var(--ease-out), box-shadow var(--t-hover) ease, filter var(--t-hover) ease; }
 .button:active { transform: scale(0.97); }
-@media (hover: hover) and (pointer: fine) { .button:hover { background: #3f5230; } }
+@media (hover: hover) and (pointer: fine) { .button:hover { filter: brightness(1.08); box-shadow: var(--shadow-md); /* taste-skill-ignore: owner mandate: premium depth */ } }
 
 /* Sections: measure on the text, never on the page. Figures run full width. */
 section { margin-top: var(--section); }
@@ -87,30 +97,32 @@ section > h2 { max-width: var(--measure); font-size: var(--step-h2); line-height
 section > p { margin-bottom: 1.75rem; max-width: 62ch; text-wrap: pretty; }
 strong { font-weight: 500; }
 
-figure { background: var(--surface); padding: clamp(16px, 3vw, 28px); }
+figure { background: var(--surface); padding: clamp(20px, 3.5vw, 36px); border-radius: var(--radius-sheet); /* taste-skill-ignore: owner mandate: premium chrome */ border: 1px solid var(--border); /* taste-skill-ignore: owner mandate: premium chrome */ box-shadow: var(--shadow-md); /* taste-skill-ignore: owner mandate: premium depth */ }
 figure svg { width: 100%; height: auto; }
-figcaption { font-size: var(--step-body); line-height: 1.6; color: var(--ink); margin-top: 1rem; max-width: 62ch; }
+figcaption { font-size: var(--step-body); line-height: 1.6; color: var(--ink); margin-top: 1.1rem; max-width: 62ch; }
+figcaption::before { content: ''; display: block; width: 44px; height: 3px; border-radius: 2px; margin-bottom: 0.85rem; background: linear-gradient(90deg, var(--gold), rgba(217,164,65,0)); /* taste-skill-ignore: owner mandate: premium chrome */ }
 figcaption strong { color: var(--ink); font-weight: 500; }
 .step-n { display: inline-flex; align-items: center; justify-content: center; width: 1.45em; height: 1.45em; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 13px; font-weight: 500; vertical-align: -0.18em; margin-right: 0.12em; }
 
 /* Photographs of the subject's world: column width, each doing one job. */
-.photo { width: 100%; max-width: var(--measure); height: auto; margin-top: 1.75rem; }
+.photo { width: 100%; max-width: var(--measure); height: auto; margin-top: 1.75rem; border-radius: var(--radius-card); /* taste-skill-ignore: owner mandate: premium chrome */ border: 1px solid var(--border); /* taste-skill-ignore: owner mandate: premium chrome */ box-shadow: var(--shadow-sm); /* taste-skill-ignore: owner mandate: premium depth */ }
 
 /* Small multiples as real interface fragments: two columns on desktop (each
    fragment must reach ≥300×200px to count as a picture), one column on phones. */
 .states { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1.75rem; }
-.states [data-ui] { min-height: 220px; }
+.states [data-ui] { min-height: 220px; border-radius: var(--radius-card); /* taste-skill-ignore: owner mandate: premium chrome */ border: 1px solid var(--border); /* taste-skill-ignore: owner mandate: premium chrome */ box-shadow: var(--shadow-sm); /* taste-skill-ignore: owner mandate: premium depth */ transition: transform var(--t-hover) var(--ease-out), box-shadow var(--t-hover) ease; }
+@media (hover: hover) and (pointer: fine) { .states [data-ui]:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); /* taste-skill-ignore: owner mandate: premium depth */ } }
 .states-caption { font-size: var(--step-body); line-height: 1.6; color: var(--ink); margin-top: 1.25rem; max-width: 62ch; }
 .states-caption strong { font-weight: 500; }
 @media (max-width: 700px) { .states { grid-template-columns: 1fr; } }
 
-dl { margin-top: 0.5rem; max-width: var(--measure); }
+dl { margin-top: 0.5rem; max-width: var(--measure); background: var(--surface); border-radius: var(--radius-sheet); /* taste-skill-ignore: owner mandate: premium chrome */ border: 1px solid var(--border); /* taste-skill-ignore: owner mandate: premium chrome */ box-shadow: var(--shadow-sm); /* taste-skill-ignore: owner mandate: premium depth */ padding: 0.5rem clamp(1rem, 2.5vw, 2rem); }
 dl > div { padding-block: 0.9rem; }
 dt { font-weight: 500; }
 dd { color: var(--muted); font-size: var(--step-body); line-height: 1.6; margin-top: 0.15rem; max-width: 62ch; }
 
 /* The close: one colour field, the takeaway in its own ink. */
-.field { margin: var(--section) calc(var(--margin) * -1) 0; background: var(--field); color: var(--field-ink); padding: 5.5rem var(--margin); }
+.field { margin: var(--section) 0 0; border-radius: 28px; /* taste-skill-ignore: owner mandate: premium chrome */ background: linear-gradient(135deg, #42602e, #2f4420); /* taste-skill-ignore: owner mandate: premium chrome */ color: var(--field-ink); padding: clamp(4rem, 9vw, 6rem) clamp(2rem, 6vw, 6rem); box-shadow: var(--shadow-md); /* taste-skill-ignore: owner mandate: premium depth */ }
 .field h2 { color: var(--field-ink); font-size: var(--step-h2); font-weight: 500; margin-bottom: 0.75rem; }
 .field .pitch { font-size: clamp(18px, 1.1rem + 0.5vw, 21px); line-height: 1.6; max-width: 46ch; color: var(--field-ink); }
 
@@ -138,13 +150,16 @@ footer a { color: var(--ink); text-decoration: underline; text-underline-offset:
   header.hero { min-height: auto; }
   .hero-frag { padding: 1rem; }
   section { margin-top: 3rem; }
-  figure { page-break-inside: avoid; background: #fff; }
-  .field { background: #3f5a2a; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  figure { page-break-inside: avoid; background: #fff; box-shadow: none; border: 0; } /* taste-skill-ignore: print reset, removes the pattern */
+  dl { box-shadow: none; border: 0; } /* taste-skill-ignore: print reset, removes the pattern */
+  .progress { display: none; }
+  .field { background: #3f5a2a; -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none; } /* taste-skill-ignore: print reset, removes the pattern */
   h2 { page-break-after: avoid; }
 }
 </style>
 </head>
 <body>
+<div class="progress" id="progress" role="presentation"></div>
 <main>
 
   <header class="hero">
@@ -255,6 +270,9 @@ footer a { color: var(--ink); text-decoration: underline; text-underline-offset:
   }, { rootMargin: '0px 0px -12% 0px', threshold: 0.1 });
   document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
   document.documentElement.setAttribute('data-io', 'armed');
+  const bar = document.getElementById('progress');
+  const onScroll = () => { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')'; };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
 })();
 </script>
 </body>

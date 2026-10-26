@@ -35,7 +35,10 @@ PAIRS = [
     ("muted on surface (secondary only)", "#59574e", "#ffffff", 7.0),
     ("ink on hero right half", "#2a2a26", "#e4ddcd", 7.0),
     ("action label on accent", "#ffffff", "#4f6238", 4.5),
+    ("button gradient top label", "#ffffff", "#556b3d", 4.5),
     ("accent hover label", "#ffffff", "#3f5230", 4.5),
+    ("closing field gradient top", "#ffffff", "#42602e", 4.5),
+    ("closing field gradient bottom", "#ffffff", "#2f4420", 7.0),
     ("fragment save button", "#ffffff", "#15803d", 4.5),
     ("closing field ink", "#ffffff", "#3f5a2a", 7.0),
     # Diagram titles and notes on their flat fills
